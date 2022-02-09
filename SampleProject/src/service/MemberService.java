@@ -69,7 +69,7 @@ public class MemberService {
 			return View.BOARD_LIST; //게시판 출력
 		}
 			
-		return View.LOGIN; //아이디&비밀번호 데이터가 존재하지 않으면 다시 로그인을 할 수 있도록 login을 return한다.
+		return View.HOME; //아이디&비밀번호 데이터가 존재하지 않으면 다시 로그인을 할 수 있도록 login을 return한다.
 		
 	}
 	
