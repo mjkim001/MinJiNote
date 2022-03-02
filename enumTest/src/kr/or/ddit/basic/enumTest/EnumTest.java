@@ -1,4 +1,4 @@
-package kr.or.ddit.enumTest;
+package kr.or.ddit.basic.enumTest;
 /*
 	- enum(열거형) 
 		==> 서로 관련있는 상수들의 집합을 나타낸다.
