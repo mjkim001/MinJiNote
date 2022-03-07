@@ -1,4 +1,4 @@
-package kr.or.ddlt.basic;
+package kr.or.ddit.basic;
 
 import java.util.Arrays;
 
@@ -30,7 +30,9 @@ public class ThreadTest13 {
 				new Horse("05번말"),
 				new Horse("06번말"),
 				new Horse("07번말"),
-				new Horse("08번말")
+				new Horse("08번말"),
+				new Horse("09번말"),
+				new Horse("10번말")
 		};
 		
 		ViewCurrent viewCurrent = new ViewCurrent(horses);
@@ -120,7 +122,7 @@ class ViewCurrent extends Thread{
 				System.out.print(horse.name + "의 현재위치 : ");
 				for(int i = 1; i <= 50; i++) {
 					if(horse.current == i) {
-						System.out.print("▶");
+						System.out.print(">");
 					}else {
 						System.out.print("-");
 					}
