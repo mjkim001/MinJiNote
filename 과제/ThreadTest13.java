@@ -43,20 +43,17 @@ public class ThreadTest13 {
 		}
 		viewCurrent.start();
 		
-		
 		for(Horse horse : horses) {
 			try {
 				horse.join();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		try {
 			viewCurrent.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		System.out.println("경기가 끝났습니다.");
@@ -112,12 +109,16 @@ class ViewCurrent extends Thread{
 	@Override
 	public void run() {
 		while(true) {
-			if(Horse.currentRank == horses.length) break;
+			
+			if(Horse.currentRank == horses.length) 
+				break;
+			
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				// TODO: handle exception
 			}
+			
 			for(Horse horse : horses) {
 				System.out.print(horse.name + "의 현재위치 : ");
 				for(int i = 1; i <= 50; i++) {
@@ -129,10 +130,10 @@ class ViewCurrent extends Thread{
 				}
 				System.out.println();
 			}
+			
 			System.out.println();
 			System.out.println();
-			System.out.println();
-			System.out.println();
+			
 		}
 	}
 }
