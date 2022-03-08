@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/public.css">
+<script type="text/javascript">
+function proc(){
+	
+	var in1 = parseInt(prompt("정수1 입력.."));
+	var in2 = parseInt(prompt("정수2 입력.."));
+	
+	var sum = in1+in2;
+	
+	str = "입력1 " + in1 + "\n입력2 " + in2 + "\n덧셈결과 " + sum;
+	alert(str);
+	
+	console.log(str);
+	
+ 	str = "입력1 " + in1 + "<br> 입력2 " + in2 + "<br> 덧셈결과 " + sum;
+// 	document.write(str);
+
+	//div를 검색
+	var vd = document.querySelector("div")
+	vd.innerHTML = str;
+}
+
+function calc(a){
+	//두수를 입력
+	var in1 = parseInt(prompt("정수1 입력.."));
+	var in2 = parseInt(prompt("정수2 입력.."));
+	
+	var result;
+	//a의 기호를 판단
+	switch(a){
+	case '+':
+		result = in1+in2;
+		break;
+	case '-':
+		result = in1-in2;
+		break;
+	case '*':
+		result = in1*in2;
+		break;
+	case '/':
+		result = in1/in2;
+		break;
+	}
+	
+	//str = "입력1 " + in1 + "<br> 입력2 " + in2 + "<br> 결과 " + result;
+	str = `입력1 ${in1} <br> 입력2 ${in2} <br> 결과 ${result}`;
+	
+	var res = document.getElementById("res");
+	res.innerHTML = str;
+	
+	//document.querySelector("#res").innerHTML = str;
+	
+}
+</script>
+
+</head>
+<body>
+<pre>
+  버튼을 클릭하면 2개의 수를 입력한다.(프롬프트 이용)
+  프롬프트 함수의 리턴 결과 값을 String이다.
+  
+  두 수를 더해서 출력한다. - div요소에
+  더하기 위해서 정수로 변환이 필요 -parseInt()
+  
+  요소 검색 - es6 - 단수로 검색한다. - 여러개가 있어도 첫번째 요소가 검색된다.
+  document.querySelector("#aa")
+  document.querySelector(".bb")
+  document.querySelector("div")
+</pre>
+<input type="button" value="확인" onclick="proc()">
+<br>
+<div></div>
+
+<hr>
+<input type="button" value="+" onclick="calc('+')">
+<input type="button" value="-" onclick="calc('-')">
+<input type="button" value="*" onclick="calc('*')">
+<input type="button" value="/" onclick="calc('/')">
+<div id ="res"></div>
+</body>
+</html>
