@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	h1{
+		text-align: center;
+	}
+	#cart_page{
+        width: 70%;
+		margin : auto;
+	}
+	table{
+		width: 100%;
+		border-collapse: collapse;
+		border : 3px solid lightgray;
+		text-align: center;
+	}
+	input[type="text"] {
+		width: 95%;
+		text-align: center;
+	}
+	#btn {
+		padding: 10px;
+		text-align: center;
+		margin-top: 20px;
+	}
+	a {
+		text-decoration: none;
+	}
+	th, td {
+		padding: 5px;
+	}
+</style>
+</head>
+<body>
+
+	<h1>장바구니 페이지</h1>
+	<form id="cart_page">
+		<table border="1">
+			<tr>
+				<th>품목</th>
+				<th>가격</th>
+				<th>수량</th>
+				<th>합계</th>
+			</tr>
+			<tr>
+				<td>컴퓨터 세트</td>
+				<td>2,000,000원</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+			</tr>
+			<tr>
+				<td>티셔츠</td>
+				<td>50,000원</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+			</tr>
+			<tr>
+				<td>음악파일</td>
+				<td>1,000원</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+			</tr>
+			<tr>
+				<td>영화파일</td>
+				<td>5,000원</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+				<td>
+					<input type="text" placeholder=0>
+				</td>
+			</tr>
+		</table>
+		<div id = "btn" action="">	
+			<input type="button" value="계산">
+			<input type="button" value="구매">
+			<input type="reset" value="초기화">
+		</div>
+		<a href="./index.html">Back to Home</a>
+	</form>
+
+</body>
+</html>
