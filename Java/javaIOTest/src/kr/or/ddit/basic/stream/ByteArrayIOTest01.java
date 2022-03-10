@@ -26,12 +26,15 @@ public class ByteArrayIOTest01 {
 		//출력된 스트림값을 배열로 변환하기
 		outsrc = output.toByteArray();
 		
-		//입출력 작업이 완료되면 사용하던 스트림을 닫아준다.
+		// 입출력 작업이 완료되면 사용하던 스트림을 닫아준다
 		try {
 			input.close();
 			output.close();
 		} catch (IOException e) {
 			// TODO: handle exception
 		}
+		
+		System.out.println(" inSrc => " + Arrays.toString(inSrc));
+		System.out.println("outSrc => " + Arrays.toString(outSrc));
 	}
 }
