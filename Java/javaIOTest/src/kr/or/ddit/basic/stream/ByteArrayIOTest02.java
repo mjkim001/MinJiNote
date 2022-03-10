@@ -33,8 +33,7 @@ public class ByteArrayIOTest02 {
 			*/
 			int len = 0;
 			while((len = input.read(temp))>0) {
-				//////////////////////////////////////////////////////////////
-				output.write(temp);
+				output.write(temp, 0, len);
 			}
 			System.out.println();
 			outsrc = output.toByteArray();
