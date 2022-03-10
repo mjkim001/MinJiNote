@@ -41,7 +41,9 @@ public class FileTest03 {
 				attr += files[i].isHidden() ? "H" : "";		
 			}
 			
-			System.out.println("%s,");
+			System.out.printf("%s %5s  %12s %s\n", 
+							df.format(new Date(files[i].lastModified())),  //lastModified()는 파일의 마지막 수정날짜를 반환
+						    attr, size, fileName);
 		}
 	}
 }
