@@ -17,6 +17,7 @@ public class DataIOTest {
 			
 			System.out.println("출력완료...");
 			dos.close();
+			
 			//-------------------------------------------------
 			
 			//출력한 자료를 읽어오기
