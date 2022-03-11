@@ -17,6 +17,18 @@ public class DataIOTest {
 			
 			System.out.println("출력완료...");
 			dos.close();
+			//-------------------------------------------------
+			
+			//출력한 자료를 읽어오기
+			FileInputStream fin = new FileInputStream("d:/d_ohher/test.dat");
+			DataInputStream din = new DataInputStream(fin);
+			
+			//DataInputStream으로 자료를 읽어올때는 
+			//출력할 때의 순서와 같은 순서로 읽어와야 한다.
+			System.out.println("정수형 : " + din.readInt());
+			System.out.println("실수형 : " + din.readFloat());
+			System.out.println("논리형 : " + din.readBoolean());
+			System.out.println("문자열 : " + din.readUTF());
 			
 		} catch (IOException e) {
 			// TODO: handle exception

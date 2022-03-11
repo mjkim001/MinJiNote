@@ -3,6 +3,7 @@ package kr.or.ddit.basic.stream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ByteArrayIOTest01 {
 	//입력 스트림 사용법
@@ -34,7 +35,7 @@ public class ByteArrayIOTest01 {
 			// TODO: handle exception
 		}
 		
-		System.out.println(" inSrc => " + Arrays.toString(inSrc));
-		System.out.println("outSrc => " + Arrays.toString(outSrc));
+		System.out.println(" inSrc => " + Arrays.toString(insrc));
+		System.out.println("outSrc => " + Arrays.toString(outsrc));
 	}
 }
