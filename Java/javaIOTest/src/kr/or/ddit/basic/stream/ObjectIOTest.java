@@ -13,7 +13,6 @@ import java.io.Serializable;
 public class ObjectIOTest {
 	public static void main(String[] args) {
 		// 객체 파일에 저장하는 객체
-
 		// Member의 인스턴스 생성
 		Member mem1 = new Member("홍길동", 20, "대전");
 		Member mem2 = new Member("홍길서", 30, "서울");
@@ -41,7 +40,7 @@ public class ObjectIOTest {
 			// TODO: handle exception
 		}
 		System.out.println("--------------------------------");
-		// --------------------------------------------
+		
 		ObjectInputStream oin = null;
 		// 저장된 객체를 읽어와 그 내용을 화면에 출력하기
 		try {
@@ -79,9 +78,7 @@ public class ObjectIOTest {
 					// TODO: handle exception
 				}
 			}
-
 		}
-
 	}
 }
 
