@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/public.css">
+<style type="text/css">
+.box input[type=button]{
+	margin: 5px;
+}
+label{
+	width: 20px;
+	text-align: center;
+	margin-left: 10px;
+}
+</style>
+<script type="text/javascript">
+  function proc1(opr){
+	  //입력 값 가져오기
+	  xValue = document.querySelector('#x').value;
+	  yValue = document.querySelector('#y').value;
+	  //opr비교
+	  switch(opr){
+		case '+':
+			result = add();
+			break;
+		case '-':
+			result = subst();
+			break;
+		case '*':
+			result = multi();
+			break;
+		case '/':
+			result = divide();		
+			break;
+		}
+	  document.querySelector('#result1').innerHTML = result;
+  }
+  function add(){
+	  return parseInt(xValue) + parseInt(yValue);
+  }
+  function subst(){
+	  return xValue - yValue;
+  }
+  function multi(){
+	  return xValue * yValue;
+  }
+  function divide(){
+	  return xValue / yValue;
+  }
+  
+  function proc2(){
+	  //배열 선언
+	  arr = new Array();
+	  //반복문
+	  for(i=0;i<5;i++){
+		  //난수 발생한다.
+		  rnd = parseInt(Math.random()*100 + 1);
+		  
+		  //배열에 추가
+		  arr[i] = rnd;
+	  }
+	  //출력
+	  document.querySelector('#result2').innerHTML += arr + "<br>";
+  }
+  function proc3(){
+	//배열 선언
+	  arr = new Array();
+	  //반복문
+	  while(!(arr.length>=5)){
+		  //난수 발생한다.
+		  rnd = parseInt(Math.random()*100 + 1);
+		  
+		  //중복제거
+		  idx = arr.indexOf(rnd);
+		  if(idx == -1) arr.push(rnd);
+	  }
+	  //출력
+	  document.querySelector('#result3').innerHTML += arr + "<br>";
+  }
+</script>
+</head>
+<body>
+<div class="box">
+  <pre>
+  	x y 값을 입력받아 연산을 수행한다.
+  </pre>
+  <label>x</label>
+  <input type="text" id="x"><br>
+  <label>y</label>
+  <input type="text" id="y"><br>
+  <input type="button" value="+" onclick="proc1('+')">
+  <input type="button" value="-" onclick="proc1('-')">
+  <input type="button" value="*" onclick="proc1('*')">
+  <input type="button" value="/" onclick="proc1('/')">
+  <div id="result1"></div>
+</div>
+
+<div class="box">
+  <pre>
+  	중복 판단x
+  	확인 버튼을 클릭하면 랜덤 수 5개를 발생하여 배열에 저장한 후 출력한다.
+  	중복된 수를 제거한다.
+  	indexOf(item) : 배열에서 아이템의 위치를 얻는다.
+  	만약에 없으면 -1을 반환한다.
+  </pre>
+  <input type="button" value="확인" onclick="proc2()">
+  <div id="result2"></div>
+</div>
+
+<div class="box">
+  <pre>
+    중복 제거
+  	확인 버튼을 클릭하면 랜덤 수 5개를 발생하여 배열에 저장한 후 출력한다.
+  	중복된 수를 제거한다.
+  	indexOf(item) : 배열에서 아이템의 위치를 얻는다.
+  	만약에 없으면 -1을 반환한다.
+  </pre>
+  <input type="button" value="확인" onclick="proc3()">
+  <div id="result3"></div>
+</div>
+
+</body>
+</html>
