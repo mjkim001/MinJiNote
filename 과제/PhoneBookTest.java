@@ -1,4 +1,4 @@
-//package kr.or.ddit.basic.stream;
+package kr.or.ddit.basic.stream;
 
 import java.io.*;
 import java.util.*;
