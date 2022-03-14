@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/public.css">
+<script type="text/javascript">
+  //객체 정의
+  function Rect(width, height) {
+	this.width = width;
+	this.height = height;
+	
+	this.getArea = function(){
+		return this.width * this.height;
+	}
+	this.getCircum = function(){
+		return (this.width + this.height)*2;
+	}
+  }
+  function proc1() {
+	//객체 생성
+	var rect = new Rect(5,7);
+	
+	//이름입력
+	rect.name = prompt("이름 입력");
+	
+	//출력
+// 	str = `이름 : ${rect.name}<br>`;
+// 	str += `가로 : ${rect.width}<br>`;
+// 	str += `세로 : ${rect.height}<br>`;
+// 	str += `넓이 : ${rect.getArea()}<br>`;
+// 	str += `둘레 : ${rect.getCircum()}`;
+	
+// 	document.querySelector("#result1").innerHTML = str;
+	
+	print(rect,"#result1");
+}
+  function print(r,out) {
+		str="";
+		str = `이름 : ${r.name}<br>`;
+		str += `가로 : ${r.width}<br>`;
+		str += `세로 : ${r.height}<br>`;
+		str += `넓이 : ${r.getArea()}<br>`;
+		str += `둘레 : ${r.getCircum()}`;
+		
+		document.querySelector(out).innerHTML = str;
+	}
+</script>
+</head>
+<body>
+
+<div class="box">
+  <pre>
+  	
+  </pre>
+  <input type="button" value="확인" onclick="proc1()">
+  <div id="result1"></div>
+</div>
+</body>
+</html>
