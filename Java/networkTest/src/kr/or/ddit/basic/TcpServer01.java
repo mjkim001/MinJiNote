@@ -46,6 +46,7 @@ public class TcpServer01 {
 		
 		//소켓과 스트림 닫기
 		dos.close();
-		
+		socket.close();
+		server.close();
 	}
 }
