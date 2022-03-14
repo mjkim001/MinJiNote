@@ -23,7 +23,9 @@ public class URLTest {
 		System.out.println("File : " + url1.getFile());
 		System.out.println("Path : "+ url1.getPath());
 		System.out.println("Query : "+ url1.getQuery());	
+		System.out.println();
 		
+		System.out.println(url1.toExternalForm());
 		
 	}
 }
