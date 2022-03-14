@@ -23,7 +23,7 @@ public class InetAddressTest {
 		System.out.println();
 		
 		//IP주소가 여러개인 호스트의 정보 가져오기
-		InetAddress[] multyIp = InetAddress.getAllByName("www.goggle.com");
+		InetAddress[] multyIp = InetAddress.getAllByName("www.google.com");
 		for(InetAddress ips : multyIp) {
 			System.out.println(ips.toString());
 		}
