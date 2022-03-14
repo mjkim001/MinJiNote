@@ -33,5 +33,8 @@ public class TcpClient01 {
 		System.out.println("서버에서 보낸 메시지");
 		System.out.println();
 		
+		System.out.println("연결을 종료합니다....");
+		dis.close();
+		socket.close();
 	}
 }
