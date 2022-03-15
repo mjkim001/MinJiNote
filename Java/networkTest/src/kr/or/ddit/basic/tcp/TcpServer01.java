@@ -43,7 +43,7 @@ public class TcpServer01 {
 		//클라이언트에게 메시지 전송하기(소켓에서 쓰기 작업을 진행한다.)
 		dos.writeUTF("환영합니다. 어서오세요.");
 		System.out.println("메시지를 보냈습니다...");
-		
+		           
 		//소켓과 스트림 닫기
 		dos.close();
 		socket.close();
