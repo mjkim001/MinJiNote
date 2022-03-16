@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/public.css">
+<script type="text/javascript">
+	function proc1() {
+		//주민번호 입력 - 110326-4432618
+		num = prompt("주민등록번호를 입력해 주세요.");
+		//추출하기 11, 03, 26 //substring,substr,slice,
+		yy = num.substr(0,2);
+		mm = num.substr(2,2);
+		dd = num.substr(4,2);
+		gend = num.substr(7,1);
+		
+		//태어난년도 구하기()
+		if(gend == "3"||gend == "4"){
+			byy = 2000 + parseInt(yy);
+		}else
+			byy = 1900 + parseInt(yy);
+		//성별구하기
+		if(gend == "1"||gend == "3"){
+			gender = "남자";
+		}else
+			gender = "여자";
+		
+		
+		//나이구하기 현재년도 - 태어난 년도
+		today = new Date();
+		age = today.getFullYear() - byy;
+		
+		//출력 주민번호(110326-4432618) 생일 : 성별 : 나이 : 
+		out = "주민번호 : " + num.slice(0,8) + "*****<br>";
+		out += "생일 : " + byy + "년 " + mm + "월 "+ dd + "일 <br>";
+		out += "성별 : " + gender + " 나이: " + age +"<br>";
+		
+		document.getElementById('result1').innerHTML = out;
+		
+	}
+	function proc2() {
+		hap = 0;
+		//곱하는값
+		multi = "234567892345";	
+		// 입력
+		input = prompt('주민번호를 입력하세요');
+		code = input.replace("-","")
+		//반복문 이용 - 각 한자리씩 추출
+		for(i=0; i<code.length; i++){
+			hap += code.substr(i,1)*multi.substr(i,1);
+		}
+		
+		//hap을 11로 나눈 나머지 구하고 11에서 뺀다
+		result = 11 - (hap % 11) ;
+		
+		if(result == 10) result = 0;
+		if(result == 11) result = 1;
+		
+		//출력
+		out = "주민번호 : " + input.substr(0,8) +"******<br>";
+		
+		if(result ==  code.substr(12,1)){
+			out += "진짜"	
+		}else{
+			out += "가짜"
+		}
+		
+		document.getElementById('result2').innerHTML = out;
+	}
+</script>
+</head>
+<body>
+
+<div class="box">
+  <pre>
+  	주민등록번호를 입력 받아 생년월일과 성별을 출력하는 프로그램을 작성하시오.(입력은 prompt로 입력받는다.)
+	예) 주민등록번호를 110326-4432618로 입력 받은 경우
+	생일 : 2011년 3월 26일
+	성별 : 여자  나이: 
+  </pre>
+  <input type="button" value="확인" onclick="proc1()">
+  <div id="result1"></div>
+</div>
+
+<div class="box">
+  <pre>
+  	주민등록번호를 입력 받아 주민등록번호의 유효성을 검사하는 프로그램을 작성하시오.(ABCDEF-GHIJKLM)
+	A*2 + B*3 + ... + H*9 + I*2 + ... + L*5 의 총합을 구한다.
+	1번의 합을 11로 나눈 나머지를 구한다.
+	11에서 2번의 결과를 뺀다.
+	3번의 결과가 0~9이면 값 그대로, 10이면 0, 11이면 1로 변환
+	4번의 결과와 M자리의 값이 같으면 맞는 번호이다.
+  </pre>
+  <input type="button" value="확인" onclick="proc2()">
+  <div id="result2"></div>
+</div>
+
+</body>
+</html>
