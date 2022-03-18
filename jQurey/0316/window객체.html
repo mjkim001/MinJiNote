@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/public.css">
+<script type="text/javascript">
+	function proc1() {
+		
+		arr = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"]
+		
+		today = new Date();
+		adate = today.toLocaleDateString();
+		day = arr[today.getDay()];
+		
+		adate = adate + "&nbsp;&nbsp;&nbsp;" + day;
+		
+		//window.open("http://naver.com","대한민국" ,"width:400 height:500")
+		win = window.open ("sub.html","subwindow","width=500 height=400 left=100 top =100")
+ 		win.moveTo(200,300)
+// 		win.moveTo(300,400)
+// 		win.moveBy(300,400)
+		
+		//자식창에 date값을 출력한다.
+		win.onload = function () {
+			win.document.getElementById('result1').innerHTML = adate;
+		}
+		
+	}
+</script>
+</head>
+<body>
+
+<div class="box">
+  <pre>
+    window : (BOM: Browser Object Model)의 최상위 객체, 메소드 호출시 생략가능
+    
+  	window.open()
+  	window.clos()
+  	window.alert()
+  	window.
+  	window.
+  
+  </pre>
+  <input type="button" value="확인" onclick="proc1()">
+  <div id="result1"></div>
+</div>
+</body>
+</html>
