@@ -70,24 +70,9 @@ public class JDBCTest02 {
 			e.printStackTrace();
 		} finally {
 			// 7. 파일 반납
-			try {
-				if (rs == null) {
-					rs.close();
-				}
-			} catch (Exception e2) {
-			}
-			try {
-				if (stmt == null) {
-					stmt.close();
-				}
-			} catch (Exception e2) {
-			}
-			try {
-				if (conn == null) {
-					conn.close();
-				}
-			} catch (Exception e2) {
-			}
+			try {if(rs==null) {rs.close();}} catch (Exception e2) {}
+			try {if(stmt==null) {stmt.close();}} catch (Exception e2) {}
+			try {if(conn==null) {conn.close();}} catch (Exception e2) {}
 
 		}
 	}
