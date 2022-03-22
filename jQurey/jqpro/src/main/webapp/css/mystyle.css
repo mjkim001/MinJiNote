@@ -1,0 +1,156 @@
+@charset "UTF-8";
+body{
+	min-width: 1000px;
+	
+}
+
+a{
+	text-decoration:none;
+}
+
+ul{
+	list-style: none;	
+	padding: 0;
+}
+
+label{
+	display:inline-block;
+	width: 70px;
+}
+
+input[type=text], input[type=password]{
+	width:80%;
+}
+
+header{
+	width: 99%;
+	height: 100px;
+	margin: 10px auto;
+	display: flex;
+	align-items: center;
+}
+header h1{
+	width: 100%;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+header img{
+	width:100px;
+	height: 50px;
+	margin: 30px;
+}
+
+header a{
+	color: black;
+}
+
+header a:hover{
+	color:lightgray;
+}
+
+nav{
+	width: 99%;
+	height: 80px;
+	margin: 10px auto;
+	border-bottom: 2px solid black;
+	border-top: 2px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+nav ul{
+	display: flex;
+}
+
+nav ul li{
+	padding: 0 20px;
+	letter-spacing: 5px;
+}
+
+nav ul li>a{
+	color:black;
+}
+
+aside{
+	width: calc(20% - 40px);
+	height:750px;
+	margin: 10px;
+	padding: 10px;
+}
+
+#left{
+	float: left;
+}
+
+#left h2{
+	padding: 10px 10px;
+	border-bottom: 1px solid black;
+}
+
+#left ul{
+	width: 90%;
+	margin: 10px auto;
+}
+
+#left ul li{
+	padding: 10px 10px;
+	border-bottom: 1px solid #baa29c;
+}
+#left ul li:hover{
+	background: #f2f4f7;
+}
+#left ul li>a{
+	color: black;
+}
+
+
+#right{
+	float: right;	
+}
+#right h2{
+	padding: 10px 10px;
+	border-bottom: 1px solid black;
+}
+#right h4{
+	padding: 10px 10px;
+	border-bottom: 1px solid black;
+}
+#shopcart a{
+	color: black;
+}
+#login{
+	margin-top:40px; 
+}
+#login a{
+	color: black;
+}
+#main{
+	width: calc(60% - 40px);
+	height : 750px;
+	float: left;
+	background: #f2f4f7;
+	border-radius: 30px;
+	margin: 10px;
+	padding: 10px;
+}
+
+#main iframe{
+	width: 100%;
+	height: 750px;
+	border: none;
+}
+
+footer{
+	width: 99%;
+	height: 50px;
+	background: black;
+	color: white;
+	margin: 10px auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
