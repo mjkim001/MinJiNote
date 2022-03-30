@@ -5,6 +5,7 @@
 <%
 	//서블릿에서 실행결과를 공유하여 꺼내기	
 	List<ProdVO> list = (List<ProdVO>)request.getAttribute("prodList");
+	
 %>
 
 

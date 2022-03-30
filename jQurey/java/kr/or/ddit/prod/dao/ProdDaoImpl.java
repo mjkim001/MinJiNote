@@ -5,25 +5,20 @@ import java.util.List;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 
-import kr.or.ddit.buyer.dao.BuyerDaoImpl;
-import kr.or.ddit.buyer.dao.IBuyerDao;
-import kr.or.ddit.buyer.vo.BuyerVO;
 import kr.or.ddit.ibatis.config.SqlMapClientFactory;
 import kr.or.ddit.prod.vo.ProdVO;
 
-public class ProdDaoImpl implements IProdDao{
+public class ProdDaoImpl implements IProdDao {
+
 	private SqlMapClient client;
 	private static IProdDao dao;
-	
-	
-	public ProdDaoImpl() {
+	private ProdDaoImpl() {
 		client = SqlMapClientFactory.getSqlClient();
 	}
 	
 	public static IProdDao getInstance() {
-		if(dao==null) {
-			dao = new ProdDaoImpl();
-		}
+		if(dao == null) dao = new ProdDaoImpl();
+		
 		return dao;
 	}
 	
@@ -42,7 +37,8 @@ public class ProdDaoImpl implements IProdDao{
 
 	@Override
 	public ProdVO selectById(String id) {
-		ProdVO vo = null;
+		ProdVO vo = null; 
+		
 		try {
 			vo = (ProdVO)client.queryForObject("prod.selectById", id);
 		} catch (SQLException e) {

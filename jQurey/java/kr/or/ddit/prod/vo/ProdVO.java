@@ -1,16 +1,15 @@
 package kr.or.ddit.prod.vo;
 
 public class ProdVO {
-	private String prod_id;
-	private String prod_name;
-	private String prod_lgu;
-	private String prod_buyer;
-	private String prod_cost;
-	private String prod_price;
-	private String prod_sale;
-	private String prod_size;
-	private String prod_color;
-	
+	private String prod_id     ;
+	private String prod_name   ;
+	private String prod_lgu    ;
+	private String prod_buyer  ;
+	private String prod_cost   ;
+	private String prod_price  ;
+	private String prod_sale   ;
+	private String prod_outline;
+	private String prod_detail ;
 	
 	public String getProd_id() {
 		return prod_id;
@@ -54,17 +53,18 @@ public class ProdVO {
 	public void setProd_sale(String prod_sale) {
 		this.prod_sale = prod_sale;
 	}
-	public String getProd_size() {
-		return prod_size;
+	public String getProd_outline() {
+		return prod_outline;
 	}
-	public void setProd_size(String prod_size) {
-		this.prod_size = prod_size;
+	public void setProd_outline(String prod_outline) {
+		this.prod_outline = prod_outline;
 	}
-	public String getProd_color() {
-		return prod_color;
+	public String getProd_detail() {
+		return prod_detail;
 	}
-	public void setProd_color(String prod_color) {
-		this.prod_color = prod_color;
+	public void setProd_detail(String prod_detail) {
+		this.prod_detail = prod_detail;
 	}
+	
 	
 }
