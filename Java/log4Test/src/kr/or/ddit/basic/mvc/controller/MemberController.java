@@ -1,5 +1,7 @@
 package kr.or.ddit.basic.mvc.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,22 +10,31 @@ import java.util.Scanner;
 import kr.or.ddit.basic.mvc.service.IMemberService;
 import kr.or.ddit.basic.mvc.service.MemberServiceImpl;
 import kr.or.ddit.basic.mvc.vo.MemberVO;
+import kr.or.ddit.util.CryptoUtil;
+
+/*
+ * 1. 회원 정보 중에서 회원 ID는 양방향 암호화로 반환하여 DB에 저장하고
+ * 	  화면에 보여줄때는 원래의 데이터로 복원하여 보여준다.
+ * 2. 비밀번호는 단방향 알고리즘으로 암호화하여 DB로 저장한다.
+ */
 
 public class MemberController {
 	private Scanner scan = new Scanner(System.in);
 	private IMemberService service;
+	
+	String key = "a1b2c3d4e5f6g7h8";
 	
 	//생성자
 	public MemberController() {
 		service = MemberServiceImpl.getInstance();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		new MemberController().start();
 	}
 	
 	
-	private void start() {
+	private void start() throws Exception{
 		while(true) {
 			int input = displayMenu();
 			switch (input) {
@@ -51,9 +62,11 @@ public class MemberController {
 
 	
 
-	private void updateMember2() {
+	private void updateMember2() throws Exception {
 		System.out.println("자료를 수정할 아이디를 입력해주세요");
-		String id  = scan.next();
+		String memId = scan.next();
+		
+		String id = CryptoUtil.sha512(memId);
 		
 		int count = service.getMemberCount(id);
 		if(count == 0) {
@@ -111,7 +124,7 @@ public class MemberController {
 		
 	}
 
-	private void printAllMember() {
+	private void printAllMember() throws Exception {
 		
 		List<MemberVO> memList = service.getAllMember();
 		
@@ -123,18 +136,20 @@ public class MemberController {
 			System.out.println(" 출력한 자료가 하나도 없습니다." );
 		}else {
 			for(MemberVO memVo : memList) {
-				System.out.println(memVo.getMem_id() + "\t" + memVo.getMem_pass() + "\t" + memVo.getMem_name() + "\t" +
+				System.out.println(CryptoUtil.decryptoAES256(memVo.getMem_id(), key) + "\t" + memVo.getMem_pass() + "\t" + memVo.getMem_name() + "\t" +
 						memVo.getMem_tel() + "\t" + memVo.getMem_addr());
 			}
  		}
 		
 	}
 
-	private void deleteMember() {
+	private void deleteMember() throws Exception {
 		System.out.println();
 		System.out.println("삭제할 회원정보를 입력하세요");
 		System.out.println("삭제할 회원ID >> ");
-		String id = scan.next();
+		String memId = scan.next();
+		
+		String id = CryptoUtil.encryptoAES256(memId, key);
 		
 		int cnt = service.deleteMember(id);
 		
@@ -146,9 +161,11 @@ public class MemberController {
 		
 	}
 
-	private void updateMember() {
+	private void updateMember() throws Exception {
 		System.out.println("자료를 수정할 아이디를 입력해주세요");
-		String id  = scan.next();
+		String memId  = scan.next();
+		
+		String id = CryptoUtil.encryptoAES256(memId, key);
 		
 		int count = service.getMemberCount(id);
 		if(count == 0) {
@@ -159,7 +176,8 @@ public class MemberController {
 		System.out.println("수정할 내용을 입력하세요");
 	
 		System.out.print("새로운 비밀번호 >> ");
-		String pw = scan.next();
+		String memPw = scan.next();
+		String pw = CryptoUtil.sha512(memPw);
 		
 		System.out.print("새로운 이름 >> ");
 		String name = scan.next();
@@ -188,19 +206,20 @@ public class MemberController {
 	}
 
 	//회원 정보를 추가(입력)하는 메서드
-	private void insertMember() {
+	private void insertMember() throws Exception{
 		System.out.println();
 		System.out.println("추가할 회원 정보를 입력하세요");
 		
 		int count = 0;	// 입력한 회원ID의 개수가 저장될 변수
 		String memId = "";	// 회원ID가 저장될 변수
-		
+		String id ="";
 		do {
 			System.out.print("회원ID >> ");
 			memId = scan.next();
+			id = CryptoUtil.encryptoAES256(memId, key);
 			
 			// 회원ID를 매개변수로 받아서 해당 회원ID의 개수를 반환하는 메서드
-			count = service.getMemberCount(memId);
+			count = service.getMemberCount(id);
 			if(count>0) {
 				System.out.println(memId + "는 이미 등록된 ID입니다.");
 				System.out.println("다른 회원ID를 입력하세요");
@@ -209,7 +228,8 @@ public class MemberController {
 		}while(count > 0);
 		
 		System.out.print("비밀번호 >>");
-		String pw = scan.next();
+		String memPw = scan.next();
+		String pw = CryptoUtil.sha512(memPw);
 		
 		System.out.print("회원이름 >>");
 		String name = scan.next();
@@ -224,7 +244,8 @@ public class MemberController {
 		
 		// 입력한 데이터를 VO객체에 저장한다
 		MemberVO memVo = new MemberVO();
-		memVo.setMem_id(memId);
+		
+		memVo.setMem_id(id);
 		memVo.setMem_pass(pw);
 		memVo.setMem_name(name);
 		memVo.setMem_tel(tel);
