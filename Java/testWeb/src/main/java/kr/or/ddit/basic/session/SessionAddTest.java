@@ -45,7 +45,7 @@ public class SessionAddTest extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		out.println("<html><head><meta charset='UTF-8'>");
+		out.println("<!DOCTYPE html><html><head><meta charset='UTF-8'>");
 		out.println("<title>Session 데이터 저장</title></head>");
 		out.println("<body>");
 		

@@ -1,26 +1,28 @@
-package kr.or.ddit.basic.session;
+package kr.or.ddit.basic.json;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.or.ddit.util.DBUtil3;
 
-public class MemberDao {
-	private static MemberDao dao;
+public class LprodDao {
 	
-	private MemberDao() {
+	private static LprodDao dao;
+	
+	private LprodDao() {}
+	
+	public static LprodDao getInstance() {
+		if(dao == null) dao = new LprodDao();
 		
-	}
-	
-	public static MemberDao getInstance() {
-		if(dao==null) dao =new MemberDao();
 		return dao;
 	}
 	
-	public MemberVO getMember(MemberVO memVo) {
-		MemberVO returnMemberVo = null;
+	public List<LprodVO> getLprodList(){
+		List<LprodVO> list = null;
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -28,27 +30,25 @@ public class MemberDao {
 		
 		try {
 			conn = DBUtil3.getConnection();
-			String sql = "select * from mymember"
-					+ "	   where mem_id=? and mem_pass=?";
+			String sql = "select * from lprod";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memVo.getMem_id());
-			pstmt.setString(2, memVo.getMem_pass());
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
-				returnMemberVo = new MemberVO();
-				returnMemberVo.setMem_id(rs.getString("mem_id"));
-				returnMemberVo.setMem_name(rs.getString("mem_name"));
-				returnMemberVo.setMem_pass(rs.getString("mem_pass"));
-				returnMemberVo.setMem_tel(rs.getString("mem_tel"));
-				returnMemberVo.setMem_addr(rs.getString("mem_addr"));
+			list = new ArrayList<LprodVO>();
+			
+			while(rs.next()) {
+				LprodVO vo  = new LprodVO();
+				
+				vo.setLprod_id(rs.getInt("lprod_id"));
+				vo.setLprod_gu(rs.getString("lprod_gu"));
+				vo.setLprod_nm(rs.getString("lprod_nm"));
+				list.add(vo);
 			}
 			
-			
 		} catch (SQLException e) {
-			returnMemberVo = null;
+			list = null;
 			e.printStackTrace();
 		}finally {
 			if(rs!=null)try {rs.close();}catch(SQLException e) {}
@@ -61,7 +61,8 @@ public class MemberDao {
 			
 			위의 쿼리문을 처리한 결과를 반환하도록 구현한다.
 		 */
-		return returnMemberVo;
+		return list;
+		
 	}
 	
 }
