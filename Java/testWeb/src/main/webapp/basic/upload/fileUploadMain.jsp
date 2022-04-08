@@ -18,5 +18,10 @@
 	Upload File2(파일 여러개 선택가능) : <input type="file" name="fileupload2" multiple><br><br>
 	<input type="submit" value="Upload">
 </form>
+<hr>
+<a href="<%=request.getContextPath()%>/uploadFileList.do">전체 upload파일 목록 보기</a>
 </body>
 </html>
+
+
+

@@ -35,7 +35,7 @@ if(userName!=null){
 			<td><%=fileInfo.getFileName() %></td>
 			<td><%=fileInfo.getFileSize() %></td>
 			<td><%=fileInfo.getStatus() %></td>
-			<td>download</td>
+			<td><a href="<%=request.getContextPath()%>/fileDownload.do?filename=<%=fileInfo.getFileName()%>">download</a></td>
 		</tr>
 	
 	<%
@@ -43,6 +43,6 @@ if(userName!=null){
 	%>
 	</tbody>
 </table>
-<a href="<%=request.getContextPath()%>/basic/upload/fileuploadMain.jsp"></a>
+<a href="<%=request.getContextPath()%>/basic/upload/fileUploadMain.jsp">파일 업로드 시작화면으로 돌아가기</a>
 </body>
 </html>
