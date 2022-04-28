@@ -22,3 +22,4 @@
 
 
 ## Python
+<a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day01"> 파이썬 기초 (변수, 반복문, 랜덤함수, 연습문제) </a>
