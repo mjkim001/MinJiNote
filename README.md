@@ -1,10 +1,10 @@
 # MinJiNote
 
-[Java 설명](#Java)
+[- Java -](#Java)
 
-[JQuery 설명](#JQuery)
+[- JQuery -](#JQuery)
 
-[Python 설명](#Python)
+[- Python -](#Python)
 
 
 <br>
