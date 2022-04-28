@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="360.0" prefWidth="443.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="336.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label id="lbl" fx:id="lbl" layoutX="93.0" layoutY="115.0" text="Good Morning" />
+            <Button id="btn" fx:id="btn" layoutX="276.0" layoutY="111.0" mnemonicParsing="false" onAction="#handleBtn1Action" text="Click" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
