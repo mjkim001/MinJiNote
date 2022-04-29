@@ -12,27 +12,26 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class Main extends Application {
+public class Main2 extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 
-		Parent root = FXMLLoader.load(getClass().getResource("hello.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("main2.fxml"));
 		Scene scene = new Scene(root); 
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
-		
-		/*
 		Button btn = (Button) scene.lookup("#btn");
 		Label lbl = (Label) scene.lookup("#lbl");
+		
 		btn.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				lbl.setText("Good Enening");
-				
+				int temp = Integer.parseInt(lbl.getText());
+				temp++;
+				lbl.setText(""+temp);
 			}
 		});
-		*/
-		primaryStage.setTitle("창 제목"); 
+		
 		primaryStage.setScene(scene);
 		primaryStage.show(); // 창 띄우기
 		

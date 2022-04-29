@@ -9,8 +9,8 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label id="lbl" fx:id="lbl" layoutX="93.0" layoutY="115.0" text="Good Morning" />
-            <Button id="btn" fx:id="btn" layoutX="276.0" layoutY="111.0" mnemonicParsing="false" onAction="#handleBtn1Action" text="Click" />
+            <Label id="lbl" fx:id="lbl" layoutX="98.0" layoutY="51.0" text="1" />
+            <Button id="btn" fx:id="btn" layoutX="68.0" layoutY="89.0" mnemonicParsing="false" text="Increase" />
          </children>
     </AnchorPane>
   </children>
