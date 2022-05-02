@@ -26,5 +26,5 @@
 2) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day02"> 파이썬 기초 (class(+생성자), 상속, 함수) </a> <br>
 3) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day03"> 파이썬 기초 (다중싱속) </a> <br>
 4) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day03/HELLO_FX"> 파이썬 기초 (javafx) </a> <br>
-5) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day04/HELLO_FX"> </a> <br>
+5) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day04/HELLO_FX"> 파이썬 기초 (javafx) </a> <br>
 6) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day04"> 파이썬 기초(PyQt)</a> <br> 
