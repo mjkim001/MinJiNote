@@ -6,34 +6,45 @@ from PyQt5.Qt import QPushButton, QSize
 from _ast import Try
 
 
-form_class = uic.loadUiType("myOmok2.ui")[0]
+form_class = uic.loadUiType("myOmok03_19.ui")[0]
 
 class MainClass(QMainWindow,form_class):
-
+    CONST_NUM = 19
     def __init__(self):
         QMainWindow.__init__(self)
         self.flag_wb = True
         self.flag_over = False
         self.pb2d = []
         self.arr2d = [
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
             
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
-            [0,0,0,0,0,  0,0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
+            [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0],
         ]
         
         self.setupUi(self)
         
-        for i in range(10):
+        for i in range(self.CONST_NUM):
             line = []
-            for j in range(10):
+            for j in range(self.CONST_NUM):
                 obj = QPushButton(self)
                 obj.setText('')
                 obj.setIcon(QtGui.QIcon('0.png'))
@@ -53,21 +64,21 @@ class MainClass(QMainWindow,form_class):
         self.flag_over = False
         self.flag_wb = True
         
-        for i in range(10):
-            for j in range(10):
+        for i in range(self.CONST_NUM):
+            for j in range(self.CONST_NUM):
                 self.arr2d[i][j] = 0
         
         self.myrender()
         
     def myrender(self):
-        for i in range(10):
-            for j in range(10):
+        for i in range(self.CONST_NUM):
+            for j in range(self.CONST_NUM):
                 if self.arr2d[j][i] == 1:
                     self.pb2d[j][i].setIcon(QtGui.QIcon('1.png'))
                 if self.arr2d[j][i] == 2:
                     self.pb2d[j][i].setIcon(QtGui.QIcon('2.png'))
                 if self.arr2d[j][i] == 0:
-                    self.pb2d[j][i].setIcon(QtGui.QIcon('0.png'))
+                    self.pb2d[j][i].setIcon(QtGui.QIcon('0.png'))  
     
     
     def myclick(self):
