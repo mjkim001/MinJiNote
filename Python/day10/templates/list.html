@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>리스트 화면</title>
+<script type="text/javascript">
+function fn_upd(e_id){
+	location.href = "upd?e_id="+e_id;
+}
+function fn_del_act(e_id){
+	var flag = confirm("한번 지워진 데이터는 복구할 수 없습니다. 그래도 삭제하시겠습니까?");
+	if(!flag){
+		return;
+	}
+	location.href = "del_act?e_id="+e_id;
+}
+</script>
+</head>
+<body>
+
+	<table border="1">
+		<tr>
+			<th>사번</th>
+			<th>이름</th>
+			<th>성별</th>
+			<th>주소</th>
+			<th>
+				<input type="button" value="추가" onclick="location.href='/add'" style="width: 100%">
+			</th>
+		</tr>
+		{% for e in emps %}
+		<tr>
+			<td>{{e.e_id}}</td>
+			<td>{{e.e_name}}</td>
+			<td>{{e.sex}}</td>
+			<td>{{e.addr}}</td>
+			<td>
+				<input type="button" value="수정" onclick="fn_upd('{{e.e_id}}')">
+				<input type="button" value="삭제" onclick="fn_del_act('{{e.e_id}}')">
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>
