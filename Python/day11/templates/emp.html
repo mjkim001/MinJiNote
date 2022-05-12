@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>리스트 화면</title>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+function myinit(){
+	fn_list(); 
+		
+}
+
+function fn_del(){
+	var flag = confirm("한번 삭제한 데이터는 복구 불가능합니다. 그래도 하시겠습니까?")
+	if(!flag){
+		return;
+	}
+	e_id = document.querySelector('#e_id').value
+	
+	axios({
+		method : 'post',
+		data :{
+			'e_id' : e_id
+		},
+		url: 'ajax_del'
+	}).then((msg)=>{
+		console.log("msg" + msg)
+		console.log(msg.data)
+		var result = msg.data;
+		
+		if(result == "ok"){
+			fn_list();
+			fn_clean();			
+		}
+		else
+			alert("delete 실패")
+	})
+}
+
+function fn_upd(){
+	
+	e_id = document.querySelector('#e_id').value
+	e_name = document.querySelector('#e_name').value
+	sex = document.querySelector('#sex').value
+	addr = document.querySelector('#addr').value
+	
+	axios({
+		method : 'post',
+		data :{
+			'e_id' : e_id,
+			'e_name' : e_name,
+			'sex' : sex,
+			'addr' : addr
+		},
+		url: 'ajax_upd'
+	}).then((msg)=>{
+		console.log("msg" + msg)
+		console.log(msg.data)
+		var result = msg.data;
+		
+		if(result == "ok"){
+			fn_list();
+			fn_clean();			
+		}
+		else
+			alert("update 실패")
+	})
+}
+
+function fn_add(){
+	
+	e_id = document.querySelector('#e_id').value
+	e_name = document.querySelector('#e_name').value
+	sex = document.querySelector('#sex').value
+	addr = document.querySelector('#addr').value
+	
+	axios({
+		method : 'post',
+		data :{
+			'e_id' : e_id,
+			'e_name' : e_name,
+			'sex' : sex,
+			'addr' : addr
+		},
+		url: 'ajax_add'
+	}).then((msg)=>{
+		console.log("msg" + msg)
+		console.log(msg.data)
+		var result = msg.data;
+		
+		if(result == "ok"){
+			fn_list();
+			fn_clean();			
+		}
+		else
+			alert("insert 실패")
+	})
+}
+
+function fn_clean(){
+	document.querySelector('#e_id').value="";
+	document.querySelector('#e_name').value="";
+	document.querySelector('#sex').value="";
+	document.querySelector('#addr').value="";
+}
+
+function fn_one(e_id){
+	console.log(e_id)
+	
+	axios({
+		method : 'get',
+		url: 'ajax_one?e_id='+e_id
+	}).then((res)=>{
+		console.log(res)
+		
+		var one = res.data;
+		
+		document.querySelector('#e_id').value=one.e_id;
+		document.querySelector('#e_name').value=one.e_name;
+		document.querySelector('#sex').value=one.sex;
+		document.querySelector('#addr').value=one.addr;
+	})
+}
+function fn_list(){
+	var my_tbody = document.querySelector('#my_tbody')
+	console.log(my_tbody)
+	axios({
+		method : 'get',
+		url: 'ajax_list'
+	}).then((res)=>{
+		
+		console.log(res)
+		
+		var htm = ""
+		var trs = res.data;
+		
+		
+		for(var i = 0; i<trs.length; i++){
+			
+			var e_id = trs[i].e_id;
+			var e_name = trs[i].e_name;
+			var sex = trs[i].sex;
+			var addr = trs[i].addr;
+			
+			var htm_tr = `
+				<tr>
+					<th><a href="javascript:fn_one('${e_id}')">${e_id}</a></th>
+					<th>${e_name}</th>
+					<th>${sex}</th>
+					<th>${addr}</th>
+				</tr>
+			
+			`;
+			htm += htm_tr;
+		}
+		my_tbody.innerHTML = htm;
+		
+	})
+}
+
+
+
+</script>
+
+</head>
+<body onload="myinit()">
+	<table border="1px">
+		<thead>
+			<tr>
+				<th>사번</th>
+				<th>이름</th>
+				<th>성별</th>
+				<th>주소</th>
+			</tr>
+		</thead>
+		<tbody id="my_tbody">
+
+		</tbody>
+	</table>
+	<br>
+	<table border="1px">
+		
+		<tr>
+			<td>사번</td>
+			<td><input type="text" id="e_id"></td>
+		</tr>
+		<tr>
+			<td>이름</td>
+			<td><input type="text" id="e_name"></td>
+		</tr>
+		<tr>
+			<td>성별</td>
+			<td><input type="text" id="sex"></td>
+		</tr>
+		<tr>
+			<td>주소</td>
+			<td><input type="text" id="addr"></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="width: 100%; text-align: center;">
+				<input type="button" value="추가" onclick='fn_add()' style="width: 30%;">
+				<input type="button" value="수정" onclick='fn_upd()' style="width: 30%;">
+				<input type="button" value="삭제" onclick='fn_del()' style="width: 30%;">
+			</td>
+		</tr>
+	</table>
+		
+</body>
+</html>
