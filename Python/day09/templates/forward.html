@@ -5,6 +5,29 @@
 <title>Insert title here</title>
 </head>
 <body>
-forward
+{{a}}
+	<table border="1">
+		{% for i in b %}
+		<tr>
+			<td>{{i}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<table border="1">
+		<tr>
+			<th>e_id</th>
+			<th>e_name</th>
+			<th>sex</th>
+			<th>addr</th>
+		</tr>
+		{% for i in c %}
+		<tr>
+			<td>{{i.e_id}}</td>
+			<td>{{i.e_name}}</td>
+			<td>{{i.sex}}</td>
+			<td>{{i.addr}}</td>
+		</tr>
+		{% endfor %}
+	</table>
 </body>
 </html>
