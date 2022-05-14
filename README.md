@@ -31,7 +31,7 @@
 7) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day08"> 파이썬 기초(DB연결)</a> <br>
 8) <a href = "https://github.com/mjkim001/MinJiNote/tree/main/Python/day09"> 파이썬 기초(flask)</a>
    <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day10">, 파이썬 기초(flask) </a>
-   <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day11">, 파이썬 기초(flask) </a> <br>
-   <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day12">, 파이썬 기초 (flask)</a>
+   <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day11">, 파이썬 기초(flask) </a> 
+   <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day12">, 파이썬 기초 (flask)</a> <br>
 9) <a> requests, BeautifulSoup </a>
 
