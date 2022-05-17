@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>strike</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script type="text/javascript" src="http://jsgetip.appspot.com"></script>
+<script type="text/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+	
+<script type="text/javascript">
+
+	var loho = location.hostname;
+	var ip = "{{ip}}";
+	
+	
+	var cnt_limit = 0;
+	var sock;
+	var flag_ing = false;
+
+	function fn_start(){
+		sock.send("start,");
+	}
+	
+	function myclick(){
+		if(!flag_ing){
+			return;
+		}
+		var odj_ta = document.querySelector("#ta");
+		var odj_ipt = document.querySelector("#ipt");
+		var str_try = odj_ipt.value;	
+		
+		if(str_try.length != 3){
+			odj_ipt.value = ''
+			return;
+		}
+		
+		cnt_limit+=1;
+		
+		sock.send("check,"+str_try);
+		
+		if(cnt_limit>=5){
+			odj_ipt.disabled=true;
+			odj_ipt.style.backgroundColor="red";
+			var user_name = $("#user").val();
+			sock.send("dead,"+user_name);
+			return;
+		}
+		
+	}
+
+	
+	function myinit(){
+		
+		if(loho != ip){
+			$('.btn_start').hide();
+		}
+		
+		sock = io.connect('http://192.168.34.53:7777');
+		sock.on('connect', function() {
+			console.log("연결되었습니다.");
+		});
+		sock.on('message', function(res) {
+			console.log(res);
+			var infos = res.message.split(",");
+			var command = infos[0];
+			if(command == "login"){
+				rsv_ready(infos[1]);
+			}
+			if(command == "check"){
+				rsv_check(infos[1],infos[2]);
+			}
+			if(command == "info"){
+				rsv_info(infos[1],infos[2]);
+			}
+			if(command == "start"){
+				rsv_start();
+			}
+			if(command == "over"){
+				rsv_over(infos[1],infos[2]);
+			}
+			if(command == "dead"){
+				rsv_dead(infos[1]);
+			}
+		});
+	}
+	
+	function rsv_dead(user_name){
+		var idx = -1;
+		for(var i=0; i<user_names.length; i++){
+			if($(".client").eq(i).html() == user_name){
+				idx = i;
+				break;
+			}
+		}
+		$(".client").eq(idx).css('backgroundColor','red');
+		
+	}
+	function rsv_over(user_name, str3){
+		flag_ing = false;
+		alert(user_name + "님이 이겼습니다.\n" + str3)
+	
+	}
+	
+	function rsv_start(){
+		flag_ing = true;
+	}
+	
+	function rsv_info(user_name, s3sb){
+		var idx = -1;
+		for(var i=0; i<user_names.length; i++){
+			if($(".client").eq(i).html() == user_name){
+				idx = i;
+				break;
+			}
+		}
+		
+		var str_old = $(".game_disp").eq(i).text();
+		$(".game_disp").eq(i).text(s3sb + "\n" + str_old);
+		
+	}
+	
+	function rsv_check(str3, sb){
+		var user_name = $("#user").val();
+		var str_old = $("#ta").text();
+		var str_new = `${str3} ${sb}\n`;
+		
+		$('#ta').text(str_new + str_old);
+		$('#ipt').val('');
+		
+		sock.send("info," + user_name + "," + str3 + " " + sb)
+		
+		if(sb == "3S0B"){
+			sock.send("over," + user_name + "," + str3)
+		}
+	}
+	
+	var user_names = [];
+	function rsv_ready(user_name){
+		
+		var flag_exist = false;
+		
+		
+		for(var i=0; i<user_names.length; i++){
+			if(user_name == user_names[i]) {
+				flag_exist = true;
+				break;
+			}
+		}
+		
+		if(!flag_exist){
+			user_names.push(user_name);
+		}
+		for(var i=0; i<user_names.length; i++){
+			$(".client").eq(i).html(user_names[i]);
+		}
+	}
+	
+	function fn_ready(){
+		var user_name = $("#user").val();
+		
+		const regExp =/^[가-힣]+$/;
+		
+		if(user_name.length ==3 && regExp.test(user_name)){
+			sock.send("login,"+user_name);
+		}
+		
+		
+		
+	}
+
+	
+	
+	function mykey(e){
+		if(e.key == 'Enter') myclick();
+	}
+	
+</script>
+
+<style type="text/css">
+#user{
+	width: 40px;
+}
+#ipt{
+	width: 60px;
+}
+.btn_ready{
+	font-size:0.5em;
+	width:30px;
+}
+.btn_start{
+	font-size:0.5em;
+	width:30px;
+}
+
+.btn{
+	width:100%;
+}
+.tbl{
+	border: 1px solid gray;
+}
+#mytable{
+	vertical-align: top;
+}
+</style>
+</head>
+<body onload="myinit()" >
+<table>
+	<tr>
+		<td  id="mytable" >
+<table class="tbl">
+	<tr>	
+		<td>
+			<input class="user" type="text" id="user"/>
+		</td>
+		<td>
+			<input class="btn_ready" type="button" value="준비" onclick="fn_ready()" />
+			<input class="btn_start" type="button" value="시작" onclick="fn_start()"/>
+		</td>
+	</tr>
+
+	<tr>	
+		<td>야구존</td>
+		<td>
+			<input class="ipt" type="text" id="ipt" onkeydown="mykey(event)" />
+		</td>
+	</tr>
+	<tr>	
+		<td colspan="2" >
+			<input class="btn" type="button" value="맞춰보기" onclick="myclick()" />
+		</td>
+	</tr>
+	<tr>	
+		<td colspan="2" >
+			<textarea id="ta" rows="6" cols="14"></textarea>
+		</td>
+	</tr>
+</table>
+		</td>
+		<td>
+		
+<table class="tbl">
+	<tr>	
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+	</tr>
+	<tr>	
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+	</tr>
+	<tr>	
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+	</tr>
+	<tr>	
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+	</tr>
+	<tr>	
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+	</tr>
+	<tr>	
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+	</tr>
+	<tr>	
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+	</tr>
+	<tr>	
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+	</tr>
+	<tr>	
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+		<td class="client">&nbsp;</td>
+	</tr>
+	<tr>	
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+		<td><textarea class="game_disp" rows="6" cols="14"></textarea></td>
+	</tr>
+
+
+</table>	
+		</td>
+	</tr>
+</table>
+
+
+</body>
+</html>
