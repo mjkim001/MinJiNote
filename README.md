@@ -34,4 +34,4 @@
    <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day11">, 파이썬 기초(flask) </a> 
    <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day12">, 파이썬 기초 (flask)</a> <br>
 9) <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day15"> 파이썬 기초(chat 프로그램,야구게임) <br>
-10) <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day16"> 파이썬 기초(야구게임) <br>
+10) <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day16"> 파이썬 기초(여려명이 참여할 수 있는 야구게임) <br>
