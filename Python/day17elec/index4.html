@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>Hello World!</title>
+<style type="text/css">
+
+.it {
+	width: 50px;
+}
+
+#ib {
+	width: 80px;
+
+}
+</style>
+<script type="text/javascript">
+	function myclick() {
+		
+		var obj_itMine = document.querySelector("#itMine");
+		var obj_itCom = document.querySelector("#itCom");
+		var obj_itResult = document.querySelector("#itResult");
+
+		var itMine = obj_itMine.value;
+		var itCom = "";
+		var itResult = "";
+		
+		if(Math.random()>0.5){
+			itCom = "짝";
+		}else{
+			itCom = "홀";
+		}
+		obj_itCom.value = itCom;
+		
+		if(itMine == itCom){
+			itResult = "맞췄습니다."
+		}else{
+			itResult = "틀렸습니다."
+		}
+		obj_itResult.value = itResult;
+		
+	}
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>나:</td>
+			<td><input type="text" class="it" id="itMine"></td>
+		</tr>
+		<tr>
+			<td>컴:</td>
+			<td><input type="text" class="it" id="itCom"></td>
+		</tr>
+		<tr>
+			<td>결과:</td>
+			<td><input type="text" class="it" id="itResult"></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="button" id="id" onclick="myclick()" value="click"></td>
+		</tr>
+	</table>
+	
+</body>
+</html>

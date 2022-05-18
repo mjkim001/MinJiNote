@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>Hello World!</title>
+<style type="text/css">
+.it {
+	width: 30px;
+}
+</style>
+<script type="text/javascript">
+	function myclick() {
+		var obj_ita = document.querySelector("#ita");
+		var obj_itb = document.querySelector("#itb");
+		var obj_itc = document.querySelector("#itc");
+
+		var a = parseInt(obj_ita.value);
+		var b = parseInt(obj_itb.value);
+		
+		var c = a + b;
+		
+		obj_itc.value = c;
+	}
+</script>
+</head>
+<body>
+	<input type="text" class="it" id="ita" value=""> +
+	<input type="text" class="it" id="itb" value="">
+	<input type="button" onclick="myclick()" value="=">
+	<input type="text" class="it" id="itc" value="">
+</body>
+</html>

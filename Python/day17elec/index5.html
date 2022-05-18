@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>Hello World!</title>
+<style type="text/css">
+
+.it {
+	width: 50px;
+}
+
+#ib {
+	width: 100%;
+
+}
+</style>
+<script type="text/javascript">
+	function myclick() {
+		
+		var obj_itDan = document.querySelector("#itDan");
+		var obj_ta = document.querySelector("#ta");
+
+		var dan = parseInt(obj_itDan.value);
+		var ta = "";
+		
+		
+		for(i=1; i<=9; i++){
+			ta += dan + " * " + i + " = " + (dan*i) + "\n"
+			
+		}
+		
+		obj_ta.value = ta;
+		
+	}
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>딘수:</td>
+			<td><input type="text" class="it" id="itDan"></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="button" id="ib" onclick="myclick()" value="출력하기"></td>
+		</tr>
+		<tr>
+			<td colspan="2"><textarea  id="ta" rows="10" cols="10"></textarea></td>
+		</tr>
+	</table>
+	
+</body>
+</html>

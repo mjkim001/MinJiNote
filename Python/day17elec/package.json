@@ -1,0 +1,45 @@
+{
+	"name": "day17elec",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"deploy": "electron-builder --windows nsis:ia32"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"elctron": "^0.0.1-security",
+		"electron": "^18.2.3",
+		"electron-builder": "^23.0.3"
+	},
+	"build": {
+		"productName": "HelloElectron",
+		"appId": "kr.co.aiai.cs",
+		"asar": true,
+		"protocols": {
+			"name": "helloElectron",
+			"schemes": [
+				"helloelectron"
+			]
+		},
+		"win": {
+			"target": [
+				"zip",
+				"nsis"
+			],
+			"icon": "./resources/installer/Icon.ico"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true
+		},
+		"directories": {
+			"buildResources": "./resources/installer/",
+			"output": "./dist/",
+			"app": "."
+		}
+	}
+}
