@@ -37,3 +37,4 @@
 10) <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day16"> 파이썬 기초(여려명이 참여할 수 있는 야구게임) <br>
 11) <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day17elec"> 파이썬 기초(electron) </a><br>
 12) <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day18omok"> 파이썬 기초(ajax를 이용한 오목) </a><br>
+13) <a href="https://github.com/mjkim001/MinJiNote/tree/main/Python/day19babyl"> 파이썬 기초(babylon js) </a><br>
