@@ -12,7 +12,7 @@
 
 ## Java
 <a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/IBatisTest">IBatis</a><br>
-
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/JDBCTest">JDBCTest</a><br>
 
 <br><br>
 
