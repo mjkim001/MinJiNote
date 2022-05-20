@@ -11,7 +11,7 @@
 <br>
 
 ## Java
-
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/IBatisTest">IBatis</a><br>
 
 
 <br><br>
