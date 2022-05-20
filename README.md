@@ -11,8 +11,21 @@
 <br>
 
 ## Java
-<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/IBatisTest">IBatis</a><br>
-<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/JDBCTest">JDBCTest</a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/args"> args </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/Sort"> Sort </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/collectionTest"> collectionTest </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/enumTest"> enumTest </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/generic"> generic </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/javaIOTest"> javaIOTest </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/IBatisTest"> IBatis </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/JDBCTest"> JDBCTest </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/JDBC"> JDBC </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/JDBCboard"> JDBCboard </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/log4Test"> log4Test </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/networkTest"> networkTest </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/testWeb"> servlet </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/threadTest"> threadTest </a><br>
+<a href="https://github.com/mjkim001/MinJiNote/tree/main/Java/TmemberWeb"> web </a><br>
 
 <br><br>
 
