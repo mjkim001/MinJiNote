@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app>
+
+	<context-param>
+		<param-name>testParam</param-name>
+		<param-value>Good Day!!</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>StringToken</param-name>
+		<param-value>a,b,c,d,e</param-value>
+	</context-param>
+
+
+	<listener>
+		<listener-class>com.jsp.listener.TestListener</listener-class>
+	</listener>
+</web-app>
