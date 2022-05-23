@@ -1,6 +1,7 @@
 package com.jsp.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,32 +20,34 @@ public class MemberRegistServlet extends HttpServlet{
 	private MemberService memberService = new SearchMemberServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = "/WEB-INF/views/member/regist.jsp";
-		request.getRequestDispatcher(url).forward(request, response);
+		String url = "/member/regist";
+		
+		request.setAttribute("viewName", url);
+		InternalViewResolver.view(request, response);
+		
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//화면
-		String url = request.getContextPath()+"/member/list";
+		String url = "/member/regist_success";
 		
 		//입력
 		try {
-			MemberRegistCommand command = (MemberRegistCommand) HttpRequestParameterAdapter.execute(request, MemberRegistCommand.class);
+			MemberRegistCommand command = HttpRequestParameterAdapter.execute(request, MemberRegistCommand.class);
 			MemberVO member = command.toMemberVO();
 			
 			//처리
 			memberService.regist(member);
 			
-			//출력
-			response.sendRedirect(url);
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 			//Exception 처리....
-			url = "";
+			url = "/member/regist_fail";
 		}
 		
+		request.setAttribute("viewName", url);
+		InternalViewResolver.view(request, response);
 	}
 
 }

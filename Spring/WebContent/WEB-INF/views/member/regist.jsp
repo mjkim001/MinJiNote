@@ -306,7 +306,7 @@ function regist_go(){
 		return;
 	}
 	
-	if($('input[name="name"]').val()){
+	if(!$('input[name="name"]').val()){
 		alert("이름은 필수 입니다.");
 		return;
 	}
