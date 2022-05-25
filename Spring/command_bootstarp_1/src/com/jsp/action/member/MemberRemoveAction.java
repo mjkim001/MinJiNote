@@ -7,26 +7,24 @@ import com.jsp.action.Action;
 import com.jsp.dto.MemberVO;
 import com.jsp.service.MemberService;
 
-public class MemberModifyFormAction implements Action {
-	
+public class MemberRemoveAction implements Action {
+
 	private MemberService memberService;
 	public void setSearchMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
-
+	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String url = "/member/modify";
+		String url = "/member/remove_success";
 		
 		String id = request.getParameter("id");
 		try {
-			MemberVO member = memberService.getMember(id);
-			
-			request.setAttribute("member", member);
+			memberService.remove(id);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			url = "/member/modify_fail";
+			url = "/member/detail_fail";
 			// 에러를 직접 보낼 때
 			// response.sendError(response.SC_INTERNAL_SERVER_ERROR);
 		}
