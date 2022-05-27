@@ -11,26 +11,8 @@
 <c:set var="cri" value="${dataMap.pageMaker.cri }" />
 <c:set var="memberList" value="${dataMap.memberList }" />
 
+<%@ include file="/WEB-INF/include/header.jsp" %>
 
-<!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Starter</title>
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap/plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap/dist/css/adminlte.min.css">
-</head>
-<body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <div >
 	 <!-- Main content -->
@@ -60,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
    	<section class="content">
    		<div class="card">
    			<div class="card-header with-border">
-   				<button type="button" class="btn btn-primary" onclick="OpenWindow('regist.do', '회원등록', 800, 800)" >회원등록</button>
+   				<button type="button" class="btn btn-primary" onclick="OpenWindow('registForm.do', '회원등록', 800, 800)" >회원등록</button>
    				<div id="keyword" class="card-tools" style="width:550px;">
    					 <div class="input-group row">
    					 	<!-- search bar -->
@@ -77,10 +59,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					  	<!-- search bar -->
 					 	<select class="form-control col-md-3" name="searchType" id="searchType">
 					 		<option value=""  >검색구분</option>
-							<option value="i" ${param.searchType=='i' ? "selected":"" } >아이디</option>
-							<option value="n" ${param.searchType=='n' ? "selected":"" }>이 름</option>
-							<option value="p" ${param.searchType=='p' ? "selected":"" }>전화번호</option>
-							<option value="e" ${param.searchType=='e' ? "selected":"" }>이메일</option>				 									
+							<option value="i" ${param.searchType eq 'i' ? "selected":"" }>아이디</option>
+							<option value="n" ${param.searchType eq 'n' ? "selected":"" }>이 름</option>
+							<option value="p" ${param.searchType eq 'p' ? "selected":"" }>전화번호</option>
+							<option value="e" ${param.searchType eq 'e' ? "selected":"" }>이메일</option>				 									
 						</select>
 						<!-- keyword -->
    					 	<input  class="form-control" type="text" name="keyword" 
@@ -112,7 +94,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		            		<c:forEach items="${memberList }" var="member">
 		     						
 		     				
-		     					 <tr  onclick="OpenWindow('detail.do?id=${member.id}','회원상세',700,800);" style="cursor:pointer;">
+		     					 <tr onclick="OpenWindow('detail.do?id=${member.id}','회원상세',700,800);" style="cursor:pointer;">
 		            		  	   	<td>
 		            		  	   		<span class="manPicture" data-id="${member.id }" style="display:block;width:40px;height:40px;margin:0 auto;"></span>
 		            		  	   	</td>
@@ -178,7 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	     </div>
    	</section>
   </div>
-  
+</div>  
   
   
 <form id="jobForm">	
@@ -209,49 +191,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		
 	}
   </script>
-
-<script type="text/javascript">
-
-window.onload=function(){
-	MemberPictureThumb('<%=request.getContextPath() %>');
+  
+  
+<script>
+window.onload = function(){
+	MemberPictureThumb('<%=request.getContextPath()%>');	
 }
-
 </script>
-
- <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Anything you want
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
-</div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="<%=request.getContextPath() %>/resources/bootstrap/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<%=request.getContextPath() %>/resources/bootstrap/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<%=request.getContextPath() %>/resources/bootstrap/dist/js/adminlte.min.js"></script>
-
-
-<!-- common -->
-<script src="<%=request.getContextPath() %>/resources/js/common.js"></script>
-
-</body>
-</html>
+  
+  
+<%@ include file="/WEB-INF/include/footer.jsp" %>

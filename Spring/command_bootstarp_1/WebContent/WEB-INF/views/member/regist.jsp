@@ -3,26 +3,10 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 
 
-<!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Starter</title>
+<%@ include file="/WEB-INF/include/header.jsp" %>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap/plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap/dist/css/adminlte.min.css">
-</head>
-<body class="hold-transition sidebar-mini">
 	<!-- Content Wrapper. Contains page content -->
+	
 <div>
   	 <section class="content-header">
 	  	<div class="container-fluid">
@@ -54,7 +38,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<!-- form start -->
 			<div class="card">				
 				<div class="register-card-body">
-					<form role="form" class="form-horizontal" action="regist.do" method="post">						
+					<form role="form" class="form-horizontal" action="regist" method="post">						
 						<input type="hidden" name="picture" />
 						<div class="input-group mb-3">
 							<div class="mailbox-attachments clearfix" style="text-align: center;">
@@ -239,23 +223,25 @@ function upload_go(){
 		success : function(data){
 			//업로드 확인변수 세팅
 			$('input[name="checkUpload"]').val(1);
+			//저장된 파일명 저장.
+			$('input#oldFile').val(data);	// 변경시 삭제될 파일명
+			$('form[role="form"] input[name="picture"]').val(data);
 			
-			//저장된 파일명 저장
-			$('input#oldFile').val(data); //변경시 삭제할 파일명
-			$('form[role="form"] inputp[name="picture"]').val(data);
-			alert("사진이 업로드 되었습니다.");
+			alert("사진이 업로드 되었습니다.")
 		},
 		error:function(error){
-			alert("현재 사진 업로들가 불가합니다.\n 관리자에게 연락바랍니다.");
+			alert("현재 사진 업로드가 불가합니다.\n 관리자에게 연락바랍니다")
 		}
 	})
 	
 }
 
+
 var checkedID = "";
 function idCheck_go(){
-	//alert("id check btn click");
-	var input_ID=$('input[name="id"]');
+	//alert('id check btn click');
+	
+	var input_ID = $('input[name="id"]');
 	
 	if(!input_ID.val()){
 		alert("아이디를 입력하시오");
@@ -264,7 +250,7 @@ function idCheck_go(){
 	}
 	
 	$.ajax({
-		url : "idCheck.do?id="+input_ID.val().trim(),
+		url : "idCheck.do?id=" + input_ID.val().trim(),
 		method : "get",
 		success : function(result){
 			if(result.toUpperCase() == "DUPLICATED"){
@@ -277,57 +263,47 @@ function idCheck_go(){
 			}
 		},
 		error : function(error){
-			alert("시스템장애로 가입이 불가합니다.");
+			alert("시스템 장애로 가입이 불가합니다");
 		}
-	});
-	
+	})
 }
 
 function regist_go(){
 	//alert("regist btn click");
+	
 	var uploadCheck = $('input[name="checkUpload"]').val();
 	if(uploadCheck == "0"){
-		alert("사진업로드는 필수 입니다.");
+		alert("사진업로드는 필수입니다.");
 		return;
 	}
 	
 	if(!$('input[name="id"]').val()){
-		alert("아이디는 필수 입니다.");
+		alert("아이디는 필수입니다.")
 		return;
 	}
 	
-	if($('input[name="id"]').val()!=checkedID){
-		alert("아이디는 중복 환인이 필요합니다.");
+	if($('input[name="id"]').val()!= checkedID){
+		alert("아이디는 중복 확인이 필요합니다.")
 		return;
 	}
 	
 	if(!$('input[name="pwd"]').val()){
-		alert("패스워드는 필수 입니다.");
+		alert("패스워드는 필수입니다.")
 		return;
 	}
 	
 	if(!$('input[name="name"]').val()){
-		alert("이름은 필수 입니다.");
+		alert("이름은 필수입니다.")
 		return;
 	}
 	
 	var form = $('form[role="form"]');
-	form.attr({"method":"post",
-			   "action":"regist.do"
-	});
+	form.attr({
+		"method" : "post",
+		"action" : "regist.do"
+	})
 	form.submit();
-	
 }
-
-
 </script>
 
-
-<!-- jQuery -->
-<script src="<%=request.getContextPath() %>/resources/bootstrap/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<%=request.getContextPath() %>/resources/bootstrap/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<%=request.getContextPath() %>/resources/bootstrap/dist/js/adminlte.min.js"></script>
-</body>
-</html>
+<%@ include file="/WEB-INF/include/footer.jsp" %>
