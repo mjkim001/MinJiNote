@@ -12,8 +12,8 @@ import org.apache.commons.fileupload.FileItem;
 import com.jsp.action.Action;
 import com.jsp.controller.FileUploadResolver;
 import com.jsp.controller.GetUploadPath;
+import com.jsp.controller.MultipartHttpServletRequestParser;
 import com.jsp.exception.NotMultipartFormDataException;
-import com.jsp.service.MultipartHttpServletRequsetParser;
 
 public class MemberPictureFileUploadAction implements Action {
 
@@ -28,7 +28,7 @@ public class MemberPictureFileUploadAction implements Action {
 		
 		try {
 			//	1. request 변환
-			MultipartHttpServletRequsetParser multi = new MultipartHttpServletRequsetParser(request, MEMORY_THRESHOLD, MAX_FILE_SIZE, MAX_REQUEST_SIZE);
+			MultipartHttpServletRequestParser multi = new MultipartHttpServletRequestParser(request, MEMORY_THRESHOLD, MAX_FILE_SIZE, MAX_REQUEST_SIZE);
 			
 			//	2. 저장할 경로
 			String uploadPath = GetUploadPath.getUploadPath("member.picture.upload");

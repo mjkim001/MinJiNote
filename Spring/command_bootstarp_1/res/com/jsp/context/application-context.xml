@@ -8,8 +8,12 @@
 	<!-- Repository -->
 	<bean id="memberDAO"
 	      class="com.jsp.dao.MemberDAOImpl" />
+	      
 	<bean id="searchMemberDAO"
 	      class="com.jsp.dao.SearchMemberDAOImpl" />
+	      
+	<bean id="menuDAO"
+	      class="com.jsp.dao.MenuDAOImpl" />
 	
 	<!-- Service -->
 	<bean id="memberService"
@@ -24,6 +28,19 @@
 		<property name="sqlSessionFactory"  ref-value="sqlSessionFactory"/>
 		<property name="memberDAO"  ref-value="searchMemberDAO"/>     
 	</bean>
-	      
+
+	<bean id="menuService"
+	      class="com.jsp.service.MenuServiceImpl" >
+		<property name="sqlSessionFactory"  ref-value="sqlSessionFactory"/>
+		<property name="menuDAO"  ref-value="menuDAO"/>     
+	</bean>
+	 
+	<bean id="loginSearchMemberService"
+		  class="com.jsp.service.LoginSearchMemberServiceImpl">
+		  <property name="memberDAO" ref-value="searchMemberDAO"/>
+		  <property name="searchMemberDAO" ref-value="searchMemberDAO"/>
+		  <property name="sqlSessionFactory" ref-value="sqlSessionFactory"/>
+		  <property name="sqlSessionFactoryForLogin" ref-value="sqlSessionFactory"/>
+	</bean>     
 
 </beans>

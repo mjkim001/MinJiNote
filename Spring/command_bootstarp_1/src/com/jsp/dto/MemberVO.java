@@ -89,6 +89,13 @@ public class MemberVO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	@Override
+	public String toString() {
+		return "MemberVO [id=" + id + ", pwd=" + pwd + ", name=" + name + ", phone=" + phone + ", email=" + email
+				+ ", picture=" + picture + ", regdate=" + regdate + ", authority=" + authority + ", enabled=" + enabled
+				+ ", register=" + register + ", address=" + address + "]";
+	}
+	
 	
 	
 }

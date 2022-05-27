@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jsp.action.Action;
 import com.jsp.command.MemberRegistCommand;
-import com.jsp.controller.HttpRequestParameterAdapter;
+import com.jsp.controller.HttpRequestParameterAdpter;
 import com.jsp.dto.MemberVO;
 import com.jsp.service.MemberService;
 
@@ -23,7 +23,7 @@ public class MemberRegistAction implements Action {
 		try {
 			request.setCharacterEncoding("utf-8");
 
-			MemberRegistCommand command = HttpRequestParameterAdapter.execute(request, MemberRegistCommand.class);
+			MemberRegistCommand command = HttpRequestParameterAdpter.execute(request, MemberRegistCommand.class);
 			
 			MemberVO member = command.toMemberVO();
 			

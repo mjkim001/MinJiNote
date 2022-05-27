@@ -7,22 +7,17 @@ import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 
 public class FileUploadResolver {
-
-	public static List<File> fileUpload(FileItem[] items, String uploadPath) throws Exception{
+	
+	public static List<File> fileUpload(FileItem[] items, String uploadPath) throws Exception  {
 		
 		List<File> uploadFileList = new ArrayList<File>();
-		
 		File file = new File(uploadPath);
 		file.mkdirs();
 		
-		if(items != null) {
+		if(items != null)
 			for(FileItem item : items) {
-				String fileName = new File(item.getName()).getName(); // 사용자 파일명
-				System.out.println("fileName : " + fileName);
-				if(fileName.equals("")) {
-					return null;
-				}
-				fileName = MakeFileName.toUUIDFileName(fileName, "$$"); // 고유 파일명
+				String fileName = new File(item.getName()).getName();	// 사용자 명
+				fileName = MakeFileName.toUUIDFileName(fileName,"$$");	// 고유 명
 				
 				String filePath = uploadPath + File.separator + fileName;
 				File storeFile = new File(filePath);
@@ -30,13 +25,13 @@ public class FileUploadResolver {
 				// local HDD에 저장.
 				try {
 					item.write(storeFile);
-				}catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					throw e;
 				}
 				uploadFileList.add(storeFile);
 			}
-		}
+		
 		return uploadFileList;
 	}
 }
