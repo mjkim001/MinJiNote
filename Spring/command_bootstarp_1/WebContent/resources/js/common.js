@@ -27,3 +27,23 @@ function MemberPictureThumb(contextPath){
 		
 	}
 }
+
+//pagination
+function list_go(page,url){
+	//alert(page);
+	if(!url) url="list.do";
+	
+	var jobForm=$('#jobForm');
+	jobForm.find("[name='page']").val(page);
+	jobForm.find("[name='perPageNum']").val($('select[name="perPageNum"]').val());
+	jobForm.find("[name='searchType']")
+		.val($('select[name="searchType"]').val());
+	jobForm.find("[name='keyword']")
+		.val($('div.input-group>input[name="keyword"]').val());
+	
+	jobForm.attr({
+		action:url,
+		method:'get'
+	}).submit();
+	
+}

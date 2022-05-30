@@ -11,9 +11,9 @@
 <c:set var="cri" value="${dataMap.pageMaker.cri }" />
 <c:set var="memberList" value="${dataMap.memberList }" />
 
-<%@ include file="/WEB-INF/include/header.jsp" %>
+<%-- <%@ include file="/WEB-INF/include/header.jsp" %> --%>
 
-<div class="wrapper">
+
   <div >
 	 <!-- Main content -->
 	<section class="content-header">
@@ -42,7 +42,7 @@
    	<section class="content">
    		<div class="card">
    			<div class="card-header with-border">
-   				<button type="button" class="btn btn-primary" onclick="OpenWindow('registForm.do', '회원등록', 800, 800)" >회원등록</button>
+   				<button type="button" class="btn btn-primary" onclick="OpenWindow('registForm.do','회원등록',800,800);" >회원등록</button>
    				<div id="keyword" class="card-tools" style="width:550px;">
    					 <div class="input-group row">
    					 	<!-- search bar -->
@@ -59,10 +59,10 @@
 					  	<!-- search bar -->
 					 	<select class="form-control col-md-3" name="searchType" id="searchType">
 					 		<option value=""  >검색구분</option>
-							<option value="i" ${param.searchType eq 'i' ? "selected":"" }>아이디</option>
-							<option value="n" ${param.searchType eq 'n' ? "selected":"" }>이 름</option>
-							<option value="p" ${param.searchType eq 'p' ? "selected":"" }>전화번호</option>
-							<option value="e" ${param.searchType eq 'e' ? "selected":"" }>이메일</option>				 									
+							<option value="i" ${param.searchType=='i' ? "selected":"" } >아이디</option>
+							<option value="n" ${param.searchType=='n' ? "selected":"" }>이 름</option>
+							<option value="p" ${param.searchType=='p' ? "selected":"" }>전화번호</option>
+							<option value="e" ${param.searchType=='e' ? "selected":"" }>이메일</option>				 									
 						</select>
 						<!-- keyword -->
    					 	<input  class="form-control" type="text" name="keyword" 
@@ -94,18 +94,14 @@
 		            		<c:forEach items="${memberList }" var="member">
 		     						
 		     				
-		     					 <tr onclick="OpenWindow('detail.do?id=${member.id}','회원상세',700,800);" style="cursor:pointer;">
-		            		  	   	<td>
-		            		  	   		<span class="manPicture" data-id="${member.id }" style="display:block;width:40px;height:40px;margin:0 auto;"></span>
-		            		  	   	</td>
+		     					 <tr  onclick="OpenWindow('detail.do?id=${member.id}','회원상세',700,800);" style="cursor:pointer;">
+		            		  	   	<td style="margin:0;padding:0;padding-top:5px;"><span class="manPicture" data-id="${member.id }" style="display:block;width:40px;height:40px;margin:0 auto;"></span></td>
 		            		  	   	<td>${member.id }</td>
 				              		<td>${member.pwd }</td>
 				              		<td>${member.name }
 				              		<td>${member.email }</td>
 		            		  	   	<td>${member.phone.replace('-','')  }</td>
-		            		  	   	<td>
-		            		  	   		<fmt:formatDate value="${member.regdate }" pattern="yyyy-MM-dd"/>
-		            		  	   	</td>
+		            		  	   	<td><fmt:formatDate value="${member.regDate }" pattern="yyyy-MM-dd"/></td>
 		            		  	  </tr>	
 		     					
 		     				</c:forEach>
@@ -123,81 +119,38 @@
     		</div> <!-- card-body -->
     		<div class="card-footer">
     			<!-- pagination -->
-    			<nav aria-label="Navigation">
-					<ul class="pagination justify-content-center m-0">
-						<li class="page-item">
-							<a class="page-link" href="javascript:list_go(1);">
-								<i class="fas fa-angle-double-left"></i>
-							</a>
-						<li class="page-item">
-							<a class="page-link" href="">
-								<i class="fas fa-angle-left"></i>
-							</a>						
-						</li>
-						
-						<c:forEach var="pageNum" begin="${pageMaker.startPage }" 
-												 end="${pageMaker.endPage }" >
-							<li class="page-item ${cri.page == pageNum?'active':''}">
-								<a class="page-link" href="javascript:list_go('${pageNum}');" >${pageNum }</a>
-							</li>
-							
-						</c:forEach>
-						
-						
-						<li class="page-item">
-							<a class="page-link" href="">
-								<i class="fas fa-angle-right"></i>
-							</a>						
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="">
-								<i class="fas fa-angle-double-right"></i>
-							</a>						
-						</li>
-					</ul>
-				</nav>
+    			<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
     		</div>
 	     </div>
    	</section>
   </div>
-</div>  
-  
-  
-<form id="jobForm">	
-	<input type='hidden' name="page" value="" />
-	<input type='hidden' name="perPageNum" value=""/>
-	<input type='hidden' name="searchType" value="" />
-	<input type='hidden' name="keyword" value="" />
-</form>
-  
-  
-  <script>
-	function list_go(page,url){
-		//alert(page);
-		if(!url) url="list.do";
-		
-		var jobForm=$('#jobForm');
-		jobForm.find("[name='page']").val(page);
-		jobForm.find("[name='perPageNum']").val($('select[name="perPageNum"]').val());
-		jobForm.find("[name='searchType']")
-			.val($('select[name="searchType"]').val());
-		jobForm.find("[name='keyword']")
-			.val($('div.input-group>input[name="keyword"]').val());
-		
-		jobForm.attr({
-			action:url,
-			method:'get'
-		}).submit();
-		
-	}
-  </script>
   
   
 <script>
-window.onload = function(){
-	MemberPictureThumb('<%=request.getContextPath()%>');	
+
+window.onload=function(){
+	MemberPictureThumb('<%=request.getContextPath()%>');
 }
 </script>
   
+
+
+<%-- <%@ include file="/WEB-INF/include/footer.jsp" %> --%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-<%@ include file="/WEB-INF/include/footer.jsp" %>
