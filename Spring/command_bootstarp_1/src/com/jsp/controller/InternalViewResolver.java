@@ -7,24 +7,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class InternalViewResolver {
-	public static void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+
+
+	public static void view(HttpServletRequest request, 
+							HttpServletResponse response) 
+									throws ServletException, IOException {
+		
 		String url = (String)request.getAttribute("viewName");
 		
-		if(url == null) {
+		if (url == null) {
 			return;
 		}
-		
-		if(url.indexOf("redirect:") > -1) {
-			String contextPath = request.getContextPath();
+
+		if (url.indexOf("redirect:") > -1) {
 			
-			url = contextPath + url.replace("redirect:", "");
+			String contextPath=request.getContextPath();
+			
+			url =  contextPath+url.replace("redirect:", "");
 			
 			response.sendRedirect(url);
-		}else {
+		} else {
 			String prefix = "/WEB-INF/views";
 			String subfix = ".jsp";
 			url = prefix + url + subfix;
 			request.getRequestDispatcher(url).forward(request, response);
 		}
+
 	}
 }

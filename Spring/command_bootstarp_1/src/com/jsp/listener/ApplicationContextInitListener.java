@@ -61,48 +61,55 @@ public class ApplicationContextInitListener implements ServletContextListener {
 					
 					// map instance put
 					Class<?> cls = Class.forName(classType);
-					Object targetObject = cls.newInstance();	// single tone
-					applicationContext.put(id, targetObject);
+					Object targetObj = cls.newInstance(); //single tone
+					applicationContext.put(id, targetObj);
 					
-					//System.out.println("id : " + id + ", class : " + targetObject);
+					//System.out.println("id : " + id + ", class : " + targetObj);
+										
 				}
 			}
 			
+
 			//의존 주입
-			for(int i = 0; i < beans.getLength(); i++) {
+			for (int i = 0; i < beans.getLength(); i++) {
 				Node bean = beans.item(i);
-				if(bean.getNodeType() == Node.ELEMENT_NODE) {
+				if (bean.getNodeType() == Node.ELEMENT_NODE) {
 					Element eleBean = (Element)bean;
 					
 					NodeList properties = bean.getChildNodes();
-					for(int j = 0; j < properties.getLength(); j++) {
+					for (int j = 0; j < properties.getLength(); j++) {
 						Node property = properties.item(j);
 						if(!property.getNodeName().equals("property")) continue;
 						
-						if(property.getNodeType() == Node.ELEMENT_NODE) {
+						if (property.getNodeType() == Node.ELEMENT_NODE) {
 							Element ele = (Element) property;
 							String name = ele.getAttribute("name");
 							String ref = ele.getAttribute("ref-value");
 							
-							//System.out.printf("name = %s, ref-value = %s\n", name, ref);
-							String setMethodName = "set" + name.substring(0,1).toUpperCase() + name.substring(1);
+							//System.out.printf("name = %s,ref-value=%s\n",name,ref);
+							String setMethodName = "set" + name.substring(0, 1).toUpperCase() 
+									+ name.substring(1);
 							
 							String className = eleBean.getAttribute("class");
 							Class<?> classType = Class.forName(className);
+
 							Method[] methods = classType.getMethods();
-							
-							if(methods != null) for(Method method : methods) {
+							if(methods!=null) for (Method method : methods) {
 								// 의존성 여부 확인
-								if(method.getName().equals(setMethodName)) {
-									method.invoke(applicationContext.get(eleBean.getAttribute("id")), applicationContext.get(ref));
-									System.out.println("[invoke]" + applicationContext.get(eleBean.getAttribute("id")) + ":" +  applicationContext.get(ref));
+								if (method.getName().equals(setMethodName)) {
+									method.invoke(applicationContext.get(eleBean.getAttribute("id")),
+											applicationContext.get(ref));
+									
+									System.out.println("[invoke]"
+											+applicationContext.get(eleBean.getAttribute("id"))
+											+":"+applicationContext.get(ref));
 								}
 							}
 						}
-						
 					}
 				}
 			}
+			
 			
 		}catch(Exception e) {
 			e.printStackTrace();
