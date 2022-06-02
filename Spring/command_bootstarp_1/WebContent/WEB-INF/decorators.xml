@@ -15,5 +15,5 @@
 	
 	<excludes>		
 		<pattern>/resources/*</pattern>
-	</excludes>
-</decorators>
+	</excludes>	
+</decorators>	

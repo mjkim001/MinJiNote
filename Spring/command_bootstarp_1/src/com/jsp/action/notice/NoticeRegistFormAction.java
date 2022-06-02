@@ -8,10 +8,10 @@ import com.jsp.action.Action;
 public class NoticeRegistFormAction implements Action {
 
 	@Override
-	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String url = "/notice/regist";
-		
+	public String process(HttpServletRequest request, 
+						  HttpServletResponse response) throws Exception {
+		String url ="/notice/regist";
 		return url;
 	}
-	
+
 }
