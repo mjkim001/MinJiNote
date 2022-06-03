@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="/WEB-INF/include/header.jsp" %>
+<%-- <%@ include file="/WEB-INF/include/header.jsp" %> --%>
 
 <div class="wrapper">
   <div >
@@ -72,20 +72,20 @@
 		          <div class="card-footer" style="padding:5px 0;" >
 		          		<div class="row">
 			          		<div class="col-sm-3 text-center">
-			          			<button type="button" onclick="location.href='modifyForm.do?id=${member.id}'" id="modifyBtn" class="btn btn-warning ">수 정</button>
+			          			<button type="button" onclick="location.href='modifyForm.do?id=${member.id}';" id="modifyBtn" class="btn btn-warning ">수 정</button>
 			          		</div>
 		          		
 			          		<div class="col-sm-3 text-center">
-			          			<button type="button" onclick="location.href='remove.do?id=${member.id}'" id="deleteBtn" class="btn btn-danger" >삭 제</button>
+			          			<button type="button" onclick="location.href='remove.do?id=${member.id}';" id="deleteBtn" class="btn btn-danger" >삭 제</button>
 			          		</div>
 		          			
 			          		<div class="col-sm-3 text-center">
-								<c:if test="${member.enabled eq 1}">
-				          			<button type="button" onclick="" id="stopBtn" class="btn btn-info">비활성</button>
-								</c:if>		          		
-								<c:if test="${member.enabled eq 0}">
-				          			<button type="button" onclick="" id="activeBtn" class="btn btn-info">활&nbsp;&nbsp;성</button>
-								</c:if>		          		
+			          		<c:if test="${member.enabled eq  1}">
+			          			<button type="button" onclick="" id="stopBtn" class="btn btn-info" >비활성</button>
+			          		</c:if>
+			          		<c:if test="${member.enabled eq 0 }">
+			          			<button type="button" onclick="" id="activeBtn" class="btn btn-info" >활&nbsp;&nbsp;성</button>
+			          		</c:if>
 			          		</div>
 			          		<div class="col-sm-3 text-center">
 			            		<button type="button" id="listBtn" onclick="CloseWindow();" class="btn btn-primary pull-right">닫 기</button>
@@ -98,16 +98,15 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
 </div>
 
-
-
-<!-- REQUIRED SCRIPTS -->
+  
 <script>
-window.onload = function(){
-	MemberPictureThumb('<%=request.getContextPath()%>');	
+
+window.onload=function(){
+	MemberPictureThumb('<%=request.getContextPath()%>');
 }
 </script>
+  
 
-<%@ include file="/WEB-INF/include/footer.jsp" %>
+<%-- <%@ include file="/WEB-INF/include/footer.jsp" %> --%>

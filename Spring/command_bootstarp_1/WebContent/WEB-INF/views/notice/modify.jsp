@@ -47,21 +47,21 @@
 					</div><!--end card-header  -->
 					<div class="card-body pad">
 						<form action="modify.do" method="post" role="modifyForm">
-							<input type="hidden" name="nno" value="${board.bno }" />
+							<input type="hidden" name="nno" value="${notice.nno }" />
 							<div class="form-group">
 								<label for="title">제 목</label> 
-								<input type="text" id="title" value="${board.title }"
+								<input type="text" id="title" value="${notice.title }"
 									name='title' class="form-control" placeholder="제목을 쓰세요">
 							</div>							
 							<div class="form-group">
 								<label for="writer">작성자</label> 
 								<input type="text" id="writer" readonly
-									name="writer" class="form-control" value="${board.writer }">
+									name="writer" class="form-control" value="${notice.writer }">
 							</div>
 							<div class="form-group">
 								<label for="content">내 용</label>
 								<textarea class="textarea" name="content" id="content" rows="20"
-									cols="90" placeholder="1000자 내외로 작성하세요." >${fn:escapeXml(board.content)}</textarea>
+									cols="90" placeholder="1000자 내외로 작성하세요." >${fn:escapeXml(notice.content)}</textarea>
 							</div>
 						</form>
 					</div><!--end card-body  -->

@@ -3,10 +3,8 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 
 
-<%@ include file="/WEB-INF/include/header.jsp" %>
+<%-- <%@ include file="/WEB-INF/include/header.jsp" %> --%>
 
-	<!-- Content Wrapper. Contains page content -->
-	
 <div>
   	 <section class="content-header">
 	  	<div class="container-fluid">
@@ -143,8 +141,9 @@
 </div>
 <!-- /.content-wrapper -->
 
+
 <form role="imageForm" action="upload/picture" method="post" enctype="multipart/form-data">
-	<input id="inputFile" name="pictureFile" type="file" class="form-control" style="display:none;" onchange="picture_go()">
+	<input id="inputFile" name="pictureFile" type="file" class="form-control" style="display:none;" onchange="picture_go();">
 	<input id="oldFile" type="hidden" name="oldPicture" value="" />
 	<input type="hidden" name="checkUpload" value="0" />	
 </form>
@@ -172,138 +171,136 @@ function picture_go(){
       return;
    };
    
-   //업로드 확인변수 초기화(사진변경)
-   form.find('[name="checkUpload"]').val(0);
+   //업로드 확인변수 초기화 (사진변경)
+   form.find('[name="checkUpload"]').val(0);	
+   document.getElementById('inputFileName').value=picture.files[0].name;
+ 	
    
-   document.getElementById('inputFileName').value = picture.files[0].name;
-   //$('#inputFileName').val(picture.files[0].name)
    
-   if(picture.files && picture.files[0]){
-	   var reader = new FileReader();
-	   
-	   reader.onload = function (e){
-		   $('div#pictureView').css(
-			   {
-			   'background-image' : 'url('+ e.target.result+')',
-			   'background-position' : 'center',
-			   'background-size' : 'cover',
-			   'background-repeat' : 'no-repeat'
-			   }
-		   );
-	   }
-	   
-	   reader.readAsDataURL(picture.files[0]);
-   }
-   
+   if (picture.files && picture.files[0]) {
+	
+		var reader = new FileReader();
+		
+		reader.onload = function (e) {
+			 $('div#pictureView').css({'background-image':'url('+e.target.result+')',
+                 'background-position':'center',
+                 'background-size':'cover',
+                 'background-repeat':'no-repeat'
+                 });
+		}
+		
+		reader.readAsDataURL(picture.files[0]);
+	}
 }
 
 function upload_go(){
-	//alert('upload btn click')
-	
-	if(!$('input[name="pictureFile"]').val()){
-		alert('사진을 선택하세요.')
-		$('input[name="pictureFile"]').click();
-		return;
+	//alert("upload btn click");
+	 if(!$('input[name="pictureFile"]').val()){
+	    alert("사진을 선택하세요.");
+	    $('input[name="pictureFile"]').click();
+	    return;
+     }  
+     if($('input[name="checkUpload"]').val()==1){
+       alert("이미업로드 된 사진입니다.");
+       return;      
 	}
 	
-	if($('input[name="checkUpload"]').val() == 1){
-		alert("이미 업로드 된 사진입니다.");
-		return;
-	}
-	
-	
-	var formData = new FormData($('form[role="imageForm"]')[0]);
-	
+     var formData = new FormData($('form[role="imageForm"]')[0]);
+   
+     
 	$.ajax({
-		url : "picture.do",
-		data : formData,
-		type : "post",
-		processData : false,
-		contentType : false,
-		success : function(data){
-			//업로드 확인변수 세팅
-			$('input[name="checkUpload"]').val(1);
-			//저장된 파일명 저장.
-			$('input#oldFile').val(data);	// 변경시 삭제될 파일명
-			$('form[role="form"] input[name="picture"]').val(data);
-			
-			alert("사진이 업로드 되었습니다.")
-		},
-		error:function(error){
-			alert("현재 사진 업로드가 불가합니다.\n 관리자에게 연락바랍니다")
-		}
-	})
-	
+		url:"picture.do",
+		data:formData,
+		type:"post",
+	    processData:false,
+        contentType:false,
+        success:function(data){
+       	  //업로드 확인변수 세팅
+          $('input[name="checkUpload"]').val(1);
+          //저장된 파일명 저장.
+          $('input#oldFile').val(data); // 변경시 삭제될 파일명	          
+          $('form[role="form"]  input[name="picture"]').val(data);	    	  
+    	  alert("사진이 업로드 되었습니다.");
+        },
+        error:function(error){
+          alert("현재 사진 업로드가 불가합니다.\n 관리자에게 연락바랍니다.");
+        }
+	});
 }
 
-
-var checkedID = "";
+var checkedID ="";
 function idCheck_go(){
-	//alert('id check btn click');
+	//alert("id check btn click");
 	
-	var input_ID = $('input[name="id"]');
+	var input_ID=$('input[name="id"]');
 	
 	if(!input_ID.val()){
-		alert("아이디를 입력하시오");
-		input_ID.focus();
-		return;
+       alert("아이디를 입력하시오");
+       input_ID.focus();
+       return;
 	}
 	
-	$.ajax({
-		url : "idCheck.do?id=" + input_ID.val().trim(),
-		method : "get",
-		success : function(result){
-			if(result.toUpperCase() == "DUPLICATED"){
-				alert("중복된 아이디 입니다.");
-				$('input[name="id"]').focus();
-			}else{
-				alert("사용가능한 아이디 입니다.");
-				checkedID = input_ID.val().trim();
-				$('input[name="id"]').val(input_ID.val().trim());
-			}
-		},
-		error : function(error){
-			alert("시스템 장애로 가입이 불가합니다");
-		}
-	})
+	 $.ajax({
+		 url : "idCheck.do?id="+input_ID.val().trim(),
+    	 method : "get",	
+    	 success : function(result){
+  		   if(result.toUpperCase() == "DUPLICATED"){
+              alert("중복된 아이디 입니다.");
+              $('input[name="id"]').focus();
+           }else{
+              alert("사용가능한 아이디 입니다.");
+              checkedID=input_ID.val().trim();
+              $('input[name="id"]').val(input_ID.val().trim());
+             
+           } 
+    	 },
+    	 error:function(error){
+    	   alert("시스템장애로 가입이 불가합니다.");
+    	 }
+	 });
 }
 
 function regist_go(){
 	//alert("regist btn click");
-	
-	var uploadCheck = $('input[name="checkUpload"]').val();
-	if(uploadCheck == "0"){
-		alert("사진업로드는 필수입니다.");
-		return;
-	}
-	
-	if(!$('input[name="id"]').val()){
-		alert("아이디는 필수입니다.")
-		return;
-	}
-	
-	if($('input[name="id"]').val()!= checkedID){
-		alert("아이디는 중복 확인이 필요합니다.")
-		return;
-	}
-	
-	if(!$('input[name="pwd"]').val()){
-		alert("패스워드는 필수입니다.")
-		return;
-	}
-	
-	if(!$('input[name="name"]').val()){
-		alert("이름은 필수입니다.")
-		return;
-	}
-	
-	var form = $('form[role="form"]');
-	form.attr({
-		"method" : "post",
-		"action" : "regist.do"
-	})
-	form.submit();
+	  var uploadCheck = $('input[name="checkUpload"]').val();   
+	   if(uploadCheck=="0"){
+	      alert("사진업로드는 필수 입니다");      
+	      return;
+	   }
+	   
+	   if(!$('input[name="id"]').val()){
+	      alert("아이디는 필수입니다.");
+	       return;
+	   }
+	   
+	   if($('input[name="id"]').val()!=checkedID){
+	      alert("아이디는 중복 확인이 필요합니다.");
+	      return;
+	   }
+	   
+	   if(!$('input[name="pwd"]').val()){
+		      alert("패스워드는 필수입니다.");
+		      return;
+	   }
+		   
+	   if(!$('input[name="name"]').val()){
+	      alert("이름은 필수입니다.");
+	      return;
+	   }
+	   
+	   var form = $('form[role="form"]');
+	   form.attr({"method":"post",
+		   		  "action":"regist.do"
+	   			});	   
+	   form.submit();
+	   
 }
 </script>
 
-<%@ include file="/WEB-INF/include/footer.jsp" %>
+
+<%-- <%@ include file="/WEB-INF/include/footer.jsp" %> --%>
+
+
+
+
+

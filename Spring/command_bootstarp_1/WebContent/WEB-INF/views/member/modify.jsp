@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ include file="/WEB-INF/include/header.jsp" %>
+
+
+<%-- <%@ include file="/WEB-INF/include/header.jsp" %> --%>
 
   <!-- Content Wrapper. Contains page content -->
   <div>
@@ -32,7 +33,7 @@
 		<div class="card" style="min-width:450px;">	
 			<div class="card-body">	
 				<div class="row">					
-					<input type="hidden" name="oldPicture"  value="${member.picture }"/>
+					<input type="hidden" name="oldPicture"  value=""/>
 					<input type="file" id="inputFile" onchange="changePicture_go();" name="picture" style="display:none" />
 					<div class="input-group col-md-12">
 						<div class="col-md-12" style="text-align: center;">
@@ -41,7 +42,7 @@
 								<label for="inputFile" class=" btn btn-warning btn-sm btn-flat input-group-addon">사진변경</label>
 								<input id="inputFileName" class="form-control" type="text" name="tempPicture" disabled
 									value="${member.picture }"/>
-								<input id="picture" class="form-control" type="hidden" name="uploadPicture"/>
+								<input id="picture" class="form-control" type="hidden" name="uploadPicture" />
 							</div>						
 						</div>												
 					</div>
@@ -111,70 +112,76 @@
   </section>
     <!-- /.content -->
   </div>
-
   
-  <script type="text/javascript">
-
+  <script>
+    window.onload=function(){
+	   MemberPictureThumb('<%=request.getContextPath()%>');
+	}
+  </script>
   
-  function changePicture_go(){
-	//alert("file change");
+  <script>
+ 	 function changePicture_go(){
+ 		//alert("file change");
+ 		
+ 		var picture = $('input#inputFile')[0];
+ 		
+ 		var fileFormat = picture.value.substr(picture.value.lastIndexOf(".")+1).toUpperCase();
+ 		
+ 		//이미지 확장자 jpg 확인
+		if(!(fileFormat=="JPG" || fileFormat=="JPEG")){
+			alert("이미지는 jpg 형식만 가능합니다.");
+			return;
+		} 
+		//이미지 파일 용량 체크
+		if(picture.files[0].size>1024*1024*1){
+			alert("사진 용량은 1MB 이하만 가능합니다.");
+			return;
+		};
 		
-	var picture = $('input#inputFile')[0];
-  		
-	//이미지 확장자 jpg 확인
-	var fileFormat = picture.value.substr(picture.value.lastIndexOf(".")+1).toUpperCase();
-	if(!(fileFormat=="JPG" || fileFormat=="JPEG")){
-		alert("이미지는 jpg/jpeg 형식만 가능합니다.");
-		picture.value="";      
-		return;
-	} 
-  		
-  	//이미지 파일 용량 체크
-	if(picture.files[0].size>1024*1024*1){
-		alert("사진 용량은 1MB 이하만 가능합니다.");
-		picture.value="";
-		return;
-	};
-	
-	document.getElementById('inputFileName').value = picture.files[0].name;
-	
-	
-	if(picture.files && picture.files[0]){
-		   var reader = new FileReader();
-		   
-		   reader.onload = function (e){
-			   $('div#pictureView').css(
-				   {
-				   'background-image' : 'url('+ e.target.result+')',
-				   'background-position' : 'center',
-				   'background-size' : 'cover',
-				   'background-repeat' : 'no-repeat'
-				   }
-			   );
-		   }
-		   
-		   reader.readAsDataURL(picture.files[0]);
-	   }
+		document.getElementById('inputFileName').value=picture.files[0].name;
+		
+		if (picture.files && picture.files[0]) {
+ 			var reader = new FileReader();
+			 
+			 reader.onload = function (e) {
+		        	//이미지 미리보기	        	
+		        	$('div#pictureView')
+		        	.css({'background-image':'url('+e.target.result+')',
+						  'background-position':'center',
+						  'background-size':'cover',
+						  'background-repeat':'no-repeat'
+		        		});
+		        }
+		        
+		       reader.readAsDataURL(picture.files[0]);
+		}
 		
 		// 이미지 변경 확인
 		$('input[name="uploadPicture"]').val(picture.files[0].name);
-	
-	}
+ 	 }
+ 	 
+ 	function modify_go(){
+  		//alert("modify btn click");
+  		var form=$('form[role="form"]');
+  		//form.attr("action","modify.do");
+  		form.submit();
+  	}
+ 	 
+  </script>
   
-  function modify_go(){
-	  
-	  //수정된  사진 업로드
-	  var form = $('form[role="form"]');
-	  form.submit();
-  }
-  
-  </script>  
-  
-  
-<script>
-window.onload = function(){
-	MemberPictureThumb('<%=request.getContextPath()%>');	
-}
-</script>
+<%-- <%@ include file="/WEB-INF/include/footer.jsp" %> --%>
 
-<%@ include file="/WEB-INF/include/footer.jsp" %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
