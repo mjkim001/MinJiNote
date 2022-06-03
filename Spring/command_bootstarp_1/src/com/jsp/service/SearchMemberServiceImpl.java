@@ -16,62 +16,70 @@ import com.jsp.datasource.OracleMybatisSqlSessionFactory;
 import com.jsp.dto.MemberVO;
 import com.jsp.exception.NotMatchSearchCriteria;
 
-public class SearchMemberServiceImpl extends MemberServiceImpl{
-	
-	private SqlSessionFactory sqlSessionFactory;
+public class SearchMemberServiceImpl extends MemberServiceImpl {
+
+	private SqlSessionFactory sqlSessionFactory;	
+	private SearchMemberDAO memberDAO;	
+
+
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		super.setSqlSessionFactory(sqlSessionFactory);
 		this.sqlSessionFactory = sqlSessionFactory;
+		
 	}
-
-	private SearchMemberDAO memberDAO;
 	public void setMemberDAO(SearchMemberDAO memberDAO) {
 		super.setMemberDAO(memberDAO);
 		this.memberDAO = memberDAO;
 	}
-	
-	@Override
-	public Map<String, Object> getMemberListForPage(Criteria cri) throws Exception{
 
+
+
+
+
+	@Override
+	public Map<String,Object> getMemberListForPage(Criteria cri) throws Exception {
+		
 		if(cri instanceof SearchCriteria) {
-			SearchCriteria searchCri = (SearchCriteria)cri;
+			SearchCriteria searchCri  = (SearchCriteria)cri;
 			
-			
-			SqlSession session = sqlSessionFactory.openSession(false);
-			Map<String, Object> dataMap = null;
+			SqlSession session= sqlSessionFactory.openSession(false);
+			Map<String,Object> dataMap =null;
 			
 			try {
-				//	처리..........
-				//	1) member 리스트를 가져온다
-				List<MemberVO> memberList = memberDAO.selectSearchMemberList(session, searchCri);
 				
-				//	2) 페이지 메이커
+				//처리.......
+				List<MemberVO> memberList 
+					= memberDAO.selectSearchMemberList(session, searchCri);
+				
 				PageMaker pageMaker = new PageMaker();
 				pageMaker.setCri(cri);
-				pageMaker.setTotalCount(memberDAO.selectSearchMemberListCount(session, searchCri));
+				pageMaker.setTotalCount(memberDAO.selectSearchMemberListCount(session,searchCri));
 				
-				//	3) memberList와 PageMaker를 Map에 담는다
-				dataMap = new HashMap<String, Object>();
+				dataMap = new HashMap<String,Object>();
 				dataMap.put("memberList", memberList);
-				dataMap.put("pageMaker", pageMaker);
+				dataMap.put("pageMaker",pageMaker);
 				
 				session.commit();
-			} catch (Exception e) {
+				
+			}catch(Exception e) {
 				session.rollback();
 				e.printStackTrace();
 				throw e;
 			}finally {
 				if(session!=null) session.close();
 			}
-			
 			return dataMap;
 			
 		}else {
 			throw new NotMatchSearchCriteria();
-		}
-		
+		}	
 		
 	}
-	
 
 }
+
+
+
+
+
+
