@@ -2,10 +2,10 @@ package com.jsp.command;
 
 public class Criteria {
 	
-	private int page = 1;
+	private int page=1;
 	private int perPageNum = 10;
 	
-	private int startRowNum = 0;
+	private int startRowNum=0;
 
 	public int getPage() {
 		return page;
@@ -13,7 +13,7 @@ public class Criteria {
 
 	public void setPage(int page) {
 		if(page<1) {
-			this.page = 1;
+			this.page=1;
 		}else {
 			this.page = page;
 		}
@@ -37,12 +37,17 @@ public class Criteria {
 		return startRowNum;
 	}
 
-	//목록 중 첫번째 페이지 번호(startRowNum)를 설정해준다 : (page-1)*perpageNum
 	public void setStartRowNum() {
-		this.startRowNum = (this.page-1)* perPageNum;
+		this.startRowNum=(this.page-1)*perPageNum;		
 	}
-
 	
 	
 	
 }
+
+
+
+
+
+
+

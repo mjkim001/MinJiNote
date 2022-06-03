@@ -12,17 +12,20 @@ import com.jsp.dto.MenuVO;
 import com.jsp.service.MenuService;
 
 public class SubMenuAction implements Action {
+	
 	private MenuService menuService;
 	public void setMenuService(MenuService menuService) {
 		this.menuService = menuService;
 	}
-
+	
 	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String url = null;
+		
 		String mCode = request.getParameter("mCode");
 		List<MenuVO> subMenu = null;
+		
 		try {
 			subMenu = menuService.getSubMenuList(mCode);
 			
@@ -34,17 +37,20 @@ public class SubMenuAction implements Action {
 			PrintWriter out = response.getWriter();
 			
 			// 내보내기
-			out.write(mapper.writeValueAsString(subMenu));
-			
+			out.println(mapper.writeValueAsString(subMenu));
+
 			// out 객체를 종료하고 환원.
 			out.close();
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			// Exception 처리......
-			throw e;
+			throw e;	
 		}
-		return url;
+			
+		return url;	
+			
 	}
 
 }

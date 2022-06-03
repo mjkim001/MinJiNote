@@ -11,25 +11,21 @@ import com.jsp.service.LoginSearchMemberService;
 
 public class LoginAction implements Action {
 	
-	
 	private LoginSearchMemberService loginSearchMemberService;
-	public void setLoginSearchMemberService(LoginSearchMemberService loginSearchMemberService) {
-		this.loginSearchMemberService = loginSearchMemberService;
+	public void setLoginSearchMemberService(LoginSearchMemberService loginSearchMemberServcie) {
+		this.loginSearchMemberService = loginSearchMemberServcie;
 	}
-	
 	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String url = "redirect:/index.do";
+		String url="redirect:/index.do";
 		
 		//입력
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 		String retUrl = request.getParameter("retUrl");
 		
-		if(retUrl != null) {
-			url = "redirect:" + retUrl;
-		}
+		if(retUrl!=null) url="redirect:"+retUrl;
 		
 		try {
 			loginSearchMemberService.login(id, pwd);
@@ -42,13 +38,21 @@ public class LoginAction implements Action {
 			//e.printStackTrace();
 			request.setAttribute("message", e.getMessage());
 			url = "/common/login_fail";
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			//Exception 철;
+			//Exceptin 처리
 			throw e;
 		}
-				
+		
 		return url;
 	}
 
 }
+
+
+
+
+
+
+

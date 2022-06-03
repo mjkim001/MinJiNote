@@ -4,6 +4,7 @@ public class SearchCriteria extends Criteria {
 	
 	private String keyword;
 	private String searchType;
+	
 	public String getKeyword() {
 		return keyword;
 	}

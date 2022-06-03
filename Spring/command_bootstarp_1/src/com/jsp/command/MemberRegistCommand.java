@@ -6,14 +6,14 @@ import com.jsp.dto.MemberVO;
 
 public class MemberRegistCommand {
 	
-	private String id;
-	private String pwd;
-	private String name="---";
-	private String[] phone;
-	private String email;
-	private String picture;	// 사진파일 경로/파일명
+	private String id;  //아이디
+	private String pwd; //패스워드
+	private String name="---"; //이름
+	private String[] phone; //전화번호
+	private String email;  //이메일
+	private String picture; // 사진파일 경로/파일명
 	private String authority;
-		
+	
 	
 	public String getAuthority() {
 		return authority;
@@ -59,9 +59,10 @@ public class MemberRegistCommand {
 	}
 	
 	public MemberVO toMemberVO() {
+		
 		String phone = "";
 		
-		for(String data : this.phone) {
+		for (String data : this.phone) {
 			phone += data;
 		}
 		
@@ -73,10 +74,18 @@ public class MemberRegistCommand {
 		member.setEmail(email);
 		member.setPicture(picture);
 		member.setAuthority(authority);
-		member.setAuthority(authority);
 		member.setName(name);
-		member.setRegdate(new Date());
+		member.setRegDate(new Date());
 		
 		return member;
 	}
+	
 }
+
+
+
+
+
+
+
+

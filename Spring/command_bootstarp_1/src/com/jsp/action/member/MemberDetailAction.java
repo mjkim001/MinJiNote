@@ -11,27 +11,26 @@ public class MemberDetailAction implements Action {
 	
 	private MemberService memberService;
 	public void setSearchMemberService(MemberService memberService) {
-		this.memberService = memberService;
+		this.memberService=memberService;
 	}
-	
 	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String url = "/member/detail";
+		String url="/member/detail";
 		
 		String id = request.getParameter("id");
-
 		try {
 			MemberVO member = memberService.getMember(id);
-
+			
 			request.setAttribute("member", member);
-		} catch (Exception e) {
+			
+		}catch(Exception e) {
 			e.printStackTrace();
-			//......
+			// ........
 			url = "/member/detail_fail";
 			//response.sendError(response.SC_INTERNAL_SERVER_ERROR);
 		}
-
+		
 		return url;
 	}
 
