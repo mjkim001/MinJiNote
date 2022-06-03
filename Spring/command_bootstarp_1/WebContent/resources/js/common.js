@@ -128,3 +128,20 @@ function deleteFile(src) {
 		}
 	});
  }
+
+
+function AjaxErrorSecurityRediiyRedirectHandler(status){
+	if(status == "302"){
+		alert(" 세션이 완료되었습니다. \n 로그인 하세요");
+		location.reload();
+	} else if(status == "403"){
+		alert(" 권한이 유효하지 않습니다.");
+		history.go(-1);
+	}else if(status == "404"){
+		alert("해당 페이지를 찾을 수 없습니다.");
+	}
+	else {
+		alert(" 시스템 장애로 실행이 불가합니다.");
+		history.go(-1);
+	}
+}
