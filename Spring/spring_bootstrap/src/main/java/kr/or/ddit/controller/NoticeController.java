@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.w3c.dom.html.HTMLInputElement;
 
+import com.josephoconnell.html.HTMLInputFilter;
 import com.jsp.command.NoticeModifyCommand;
 import com.jsp.command.SearchCriteria;
 import com.jsp.dto.NoticeVO;
@@ -54,7 +55,9 @@ public class NoticeController {
 	public String regist(NoticeVO notice,HttpServletRequest request,RedirectAttributes rttr) throws Exception {
 		String url = "redirect:/notice/list";
 		
-		//notice.setTitle((String)request.getAttribute("XSStitle"));
+		notice.setTitle((String)request.getAttribute("XSStitle"));
+		
+		notice.setWriter("mimi");
 		
 		noticeService.regist(notice);
 		
@@ -99,7 +102,7 @@ public class NoticeController {
 		String url = "redirect:/notice/detail.do";
 		
 		//notice.setTitle(HTMLInputFilter.htmlSpecialChars(notice.getTitle()));
-		//notice.setTitle((String)request.getAttribute("XSStitle"));
+		notice.setTitle((String)request.getAttribute("XSStitle"));
 		
 		noticeService.modify(notice);
 		
