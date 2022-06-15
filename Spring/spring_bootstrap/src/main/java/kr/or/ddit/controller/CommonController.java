@@ -3,7 +3,6 @@ package kr.or.ddit.controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jsp.dto.MenuVO;
 import com.jsp.exception.InvalidPasswordException;
@@ -28,10 +26,10 @@ import com.jsp.service.MenuService;
 public class CommonController {
 
 	@Autowired
-	MenuService menuService;
+	private MenuService menuService;
 
 	@Autowired
-	LoginSearchMemberService memberService;
+	private LoginSearchMemberService memberService;
 
 	@RequestMapping("/main")
 	public String main() {
@@ -58,12 +56,13 @@ public class CommonController {
 		ResponseEntity<List<MenuVO>> entity = null;
 
 		List<MenuVO> subMenu = null;
+
 		try {
 			subMenu = menuService.getSubMenuList(mCode);
 
 			entity = new ResponseEntity<List<MenuVO>>(subMenu, HttpStatus.OK);
 		} catch (Exception e) {
-			entity = new ResponseEntity<List<MenuVO>>(subMenu, HttpStatus.INTERNAL_SERVER_ERROR);
+			entity = new ResponseEntity<List<MenuVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 
@@ -77,34 +76,42 @@ public class CommonController {
 		if (error.equals("-1")) {
 			response.setStatus(302);
 		}
-
 		return url;
+
 	}
 
-	@RequestMapping(value = "common/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/common/login", method = RequestMethod.POST)
 	public String login(String id, String pwd, HttpSession session) throws Exception {
 		String url = "redirect:/index.do";
-
 		try {
 			memberService.login(id, pwd);
 			session.setAttribute("loginUser", memberService.getMember(id));
 		} catch (NotFoundIdException | InvalidPasswordException e) {
-			url="common/login_fail";
+			//model.addAttribute("message", e.getMessage());
+			url = "common/login_fail";
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
 		return url;
 	}
-
+	
 	@RequestMapping(value = "/common/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		String url = "redirect:/";
-
 		session.invalidate();
-
 		return url;
 	}
-
+	
 }
+
+
+
+
+
+
+
+
+
+

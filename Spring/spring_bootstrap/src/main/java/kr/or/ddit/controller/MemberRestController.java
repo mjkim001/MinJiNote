@@ -22,37 +22,39 @@ import com.jsp.service.LoginSearchMemberService;
 
 @RestController
 @RequestMapping("/member")
-public class MemberRestController {
+public class MemberRestController {	
 	
 	@Autowired
 	private LoginSearchMemberService memberService;
 	
 	@Resource(name = "picturePath")
 	private String picturePath;
-	
-	
-	public String savePicture(String oldPicture, MultipartFile multi) throws Exception {
+
+	public String savePicture(String oldPicture, MultipartFile multi) 
+										throws Exception {
 		String fileName = null;
 		
 		/* 파일저장폴더설정 */
 		String uploadPath = picturePath;
-
+		
 		/* 파일유무확인 */
-		if(!(multi == null || multi.isEmpty() || multi.getSize() > 1024 * 1024 * 1)) {
+		if (!(multi == null || multi.isEmpty() 
+					|| multi.getSize() > 1024 * 1024 * 1)) {
+			
 			fileName = MakeFileName.toUUIDFileName(multi.getOriginalFilename(), "$$");
 			File storeFile = new File(uploadPath, fileName);
 			
-			// 파일경로 생성
+			//파일경로 생성
 			storeFile.mkdirs();
 			
-			// local HDD 에저장
+			// local HDD 에 저장.
 			multi.transferTo(storeFile);
 		}
 		
-		// 기존파일 삭제
-		if(oldPicture != null && !oldPicture.isEmpty()) {
+		//기존파일 삭제
+		if (oldPicture != null && !oldPicture.isEmpty()) {
 			File oldFile = new File(uploadPath, oldPicture);
-			if(oldFile.exists()) {
+			if (oldFile.exists()) {
 				oldFile.delete();
 			}
 		}
@@ -60,20 +62,26 @@ public class MemberRestController {
 		return fileName;
 	}
 	
+
 	
-	@RequestMapping(value = "/picture", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
-	public ResponseEntity<String> picture(@RequestParam("pictureFile")MultipartFile multi, String oldPicture) throws Exception{
+	
+	
+	@RequestMapping(value = "/picture", method = RequestMethod.POST,
+			produces = "text/plain;charset=utf-8")
+	public ResponseEntity<String> picture(@RequestParam("pictureFile")
+										  MultipartFile multi,String oldPicture)
+												  		throws Exception {
 		ResponseEntity<String> entity = null;
-		
 		String result = "";
 		HttpStatus status = null;
 		
 		/* 파일저장확인 */
-		if((result = savePicture(oldPicture, multi)) == null) {
-			result = "업로드 실패했습니다.";
+		if ((result = savePicture(oldPicture, multi)) == null) {
+			result = "업로드 실패했습니다.!";
 			status = HttpStatus.BAD_REQUEST;
-		}else {
+		} else {
 			status = HttpStatus.OK;
+
 		}
 		
 		entity = new ResponseEntity<String>(result, status);
@@ -81,38 +89,51 @@ public class MemberRestController {
 	}
 	
 	@RequestMapping(value = "/getPicture", produces = "text/plain;charset=utf-8")
-	public ResponseEntity<byte[]> getPicture(String id) throws Exception{
+	public ResponseEntity<byte[]> getPicture(String id) throws Exception {
+
 		String picture = memberService.getMember(id).getPicture();
-		
-		InputStream in = null; 
-		ResponseEntity<byte[]> entity = null; 
+
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
 		String imgPath = this.picturePath;
-		
+
 		try {
 			in = new FileInputStream(new File(imgPath, picture));
-			
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
-		
+
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), 
+						HttpStatus.CREATED);
+
 		} finally {
-			if(in != null) in.close();
+			if(in!=null)in.close();
 		}
-		
 		return entity;
 	}
 	
 	@RequestMapping("/idCheck")
-	public ResponseEntity<String> idCheck(String id) throws Exception{
+	public ResponseEntity<String> idCheck(String id) throws Exception {
 		ResponseEntity<String> entity = null;
-		
+
 		MemberVO member = memberService.getMember(id);
-		
-		if(member != null) {
+
+		if (member != null) {
 			entity = new ResponseEntity<String>("duplicated", HttpStatus.OK);
-		}else {
+		} else {
 			entity = new ResponseEntity<String>("", HttpStatus.OK);
 		}
-		
+
 		return entity;
 	}
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
