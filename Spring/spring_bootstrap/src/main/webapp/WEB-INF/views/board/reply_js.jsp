@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ page trimDirectiveWhitespaces="true" %>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"  ></script>
 <script type="text/x-handlebars-template"  id="reply-list-template" >
 {{#each .}}
@@ -38,7 +39,7 @@
 </li>
 {{#each pageNum}}
 <li class="paginate_button page-item {{signActive this}} ">
-	<a href="javascript:getPage('<%=request.getContextPath()%>/reply/list.do?bno=${board.bno}&page={{this}}','{{this}}')" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">
+	<a href="javascript:getPage('<%=request.getContextPath()%>/reply/list.do?bno=${board.bno}&page={{this}}',{{this}});" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">
 		{{this}}
 	</a>
 </li>
@@ -56,87 +57,89 @@
 </li>	
 </script>
 
-<script>
-var replyPage = 1;
-window.onload = function(){
-	getPage("<%=request.getContextPath()%>/reply/list.do?bno=${board.bno}&page="+replyPage);
-}
 
-function getPage(pageInfo, page){
+<script>
+var replyPage=1;
+
+window.onload=function(){
+	getPage("<%=request.getContextPath()%>/replies/${board.bno}/"+replyPage);
+}
+function getPage(pageInfo,page){
 	if(page) replyPage = page;
-	$.getJSON(pageInfo, function(data){
+	$.getJSON(pageInfo,function(data){	
 		printData(data.replyList,$('#repliesDiv'),$('#reply-list-template'));
-		printPagination(data.pageMaker, $('ul#pagination'),$('#reply-pagination-template'));
+		printPagination(data.pageMaker,$('ul#pagination'),$('#reply-pagination-template'));
 	});
 }
 
 function printData(replyArr,target,templateObject){
-	var template = Handlebars.compile(templateObject.html());
-	var html = template(replyArr);
+	var template=Handlebars.compile(templateObject.html());
+	var html = template(replyArr);	
 	$('.replyLi').remove();
-	target.after(html)
+	target.after(html);
 }
 
 Handlebars.registerHelper({
-	"prettifyDate" : function(timeValue){	//Handlebars에 날짜출력함수 등록
-		var dateObj = new Date(timeValue);
-		var year = dateObj.getFullYear();
-		var month = dateObj.getMonth() + 1;
-		var date = dateObj.getDate();
-		return year + "/" + month + "/" + date;
+	"prettifyDate":function(timeValue){ //Handlbars에 날짜출력함수 등록
+		var dateObj=new Date(timeValue);
+		var year=dateObj.getFullYear();
+		var month=dateObj.getMonth()+1;
+		var date=dateObj.getDate();
+		return year+"/"+month+"/"+date;
 	},
-	"VisibleByLoginCheck" : function(replyer){
-		var result = "none";
-		if(replyer == "${loginUser.id}") result = "visible";
-		return result;
+	"VisibleByLoginCheck":function(replyer){
+		var result="none";		
+		if(replyer == "${loginUser.id}") result="visible";		
+		return result;						  
 	},
-	"signActive" : function(pageNum){
+	"signActive":function(pageNum){
 		if(pageNum == replyPage) return 'active';
 	}
 });
 
+
 /* pagination */
-function printPagination(pageMaker, target, templateObject){
-	var pageNumArray = new Array(pageMaker.endPage-pageMaker.startPage + 1);
-	for(var i = 0; i < pageMaker.endPage-pageMaker.startPage+1;i++){
-		pageNumArray[i] = pageMaker.startPage + i;
-	}
-		pageMaker.pageNum = pageNumArray;
-		pageMaker.prevPageNum = pageMaker.startPage - 1;
-		pageMaker.nextPageNum = pageMaker.endPage + 1;
-		
-		var template = Handlebars.compile(templateObject.html());
-		var html = template(pageMaker);
-		target.html("").html(html);
+function printPagination(pageMaker,target,templateObject){
+	var pageNumArray = new Array(pageMaker.endPage-pageMaker.startPage+1);
+	for(var i=0;i<pageMaker.endPage-pageMaker.startPage+1;i++){
+		pageNumArray[i]=pageMaker.startPage+i;
+	}	
+	pageMaker.pageNum=pageNumArray;  
+	pageMaker.prevPageNum=pageMaker.startPage-1;
+	pageMaker.nextPageNum=pageMaker.endPage+1;
+	
+	var template=Handlebars.compile(templateObject.html());	
+	var html = template(pageMaker);	
+	target.html("").html(html);
 }
 
 function replyRegist_go(){
-	var replytext = $('#newReplyText').val();
+	var replytext=$('#newReplyText').val();
 	
-	//var bno = $('input[name="bno"]').val();
 	
-	var data = {
-		"bno" : "${board.bno}",
-		"replyer" : '${loginUser.id}',
-		"replytext" : replytext
+	var data={
+			"bno":"${board.bno}",
+			"replyer":"${loginUser.id}",
+			"replytext":replytext	
 	}
 	
 	$.ajax({
-		url:"<%=request.getContextPath()%>/reply/regist.do",
+		url:"<%=request.getContextPath()%>/replies",
 		type:"post",
 		data:JSON.stringify(data),	
 		contentType:'application/json',
 		success:function(data){
+			//console.log(data);
 			alert('댓글이 등록되었습니다.\n마지막페이지로 이동합니다.');
 			replyPage=data; //페이지이동
-			getPage("<%=request.getContextPath()%>/reply/list.do?bno="+ ${board.bno} +"&page="+data); //리스트 출력
+			getPage("<%=request.getContextPath()%>/replies/${board.bno}/"+data); //리스트 출력
 			$('#newReplyText').val("");	
 		},
 		error:function(error){
-			//alert('댓글이 등록을 실패했습니다.');
-			AjaxErrorSecurityRedirectHandler(error.status);
+			AjaxErrorSecurityRedirectHandler(error.status);	
 		}
 	});
+	
 }
 
 //댓글 수정 modal
@@ -145,64 +148,81 @@ function replyModifyModal_go(rno){
 	//alert($('div#'+rno+'-replytext').text());
 	$('div#modifyModal div.modal-body #replytext').val($('div#'+rno+'-replytext').text());
 	$('div#modifyModal div.modal-header h4.modal-title').text(rno);
-	
 }
 
-//댓글 수정
+//댓글 수정.
 function replyModify_go(){
 	//alert("modify btn");
-	var rno = $('div#modifyModal h4.modal-title').text();
-	var replytext = $('div#modifyModal #replytext').val();
+	var rno=$('div#modifyModal h4.modal-title').text();
+	var replytext=$('div#modifyModal #replytext').val();
 	
-	var sendData = {
-			"rno" : rno,
-			"replytext" : replytext
+	var sendData={
+			"rno":rno,
+			"replytext":replytext
 	}
 	
 	$.ajax({
-		url : "<%=request.getContextPath()%>/reply/modify.do",
-		type : "post",
-		data : JSON.stringify(sendData),
-		contentType : "application/json",
-		success : function(result){
-			alert('수정되었습니다.');
-			getPage("<%=request.getContextPath()%>/reply/list.do?bno=${board.bno}&page="+replyPage);
+		url:"<%=request.getContextPath()%>/replies/"+rno,
+		type:"PUT",
+		data:JSON.stringify(sendData),
+		contentType:"application/json",
+		headers:{			
+			"X-HTTP-Method-Override":"PUT"
+		},
+		success:function(result){
+			alert("수정되었습니다.");			
+			getPage("<%=request.getContextPath()%>/replies/${board.bno}/"+replyPage);
 		},
 		error:function(error){
-			//alert('수정 실패했습니다');
-			AjaxErrorSecurityRedirectHandler(error.status);
+			//alert('수정 실패했습니다.');
+			AjaxErrorSecurityRedirectHandler(error.status);	
 		},
 		complete:function(){
 			$('#modifyModal').modal('hide');
 		}
 	});
-	
-	
 }
 
-function replyRemove_go(error){
+function replyRemove_go(){
 	//alert("delete btn");
-	var rno = $('.modal-title').text();
+	
+	var rno=$('.modal-title').text();
 	
 	$.ajax({
-		url : '<%=request.getContextPath()%>/reply/remove.do?rno=' + rno
-					+ "&page=" + replyPage + "&bno=${board.bno}",
-		type: "get",
-		success : function (page){
-			alert("삭제되었습니다");
-			getPage("<%=request.getContextPath()%>/reply/list.do?bno=${board.bno}&page="+page);
-			replyPage = page;
+		url:"<%=request.getContextPath()%>/replies/${board.bno}/"+rno+"/"+replyPage,
+		type:"DELETE",
+		headers:{			
+			"X-HTTP-Method-Override":"DELETE"
+		},
+		success:function(page){
+			alert("삭제되었습니다.");
+			getPage("<%=request.getContextPath()%>/replies/${board.bno}/"+page);
+			replyPage=page;
 		},
 		error:function(error){
-			//alert('삭제 실패했습니다');
-			AjaxErrorSecurityRedirectHandler(error.status);
+			//alert('삭제 실패했습니다.');
+			AjaxErrorSecurityRedirectHandler(error.status);	
 		},
 		complete:function(){
 			$('#modifyModal').modal('hide');
 		}
-		
-	})	
+	});
 }
+</script> 
 
-</script>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

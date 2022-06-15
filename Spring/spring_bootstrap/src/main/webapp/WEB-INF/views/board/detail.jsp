@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <title>게시글 상세</title>
 
@@ -59,9 +60,9 @@
 							</div>		
 							
 							<div class="form-group col-sm-4" >
-								<label for="regdate">작성일</label>
-								<input type="text" class="form-control" id="regdate" readonly 
-									value="<fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd" />" />
+								<label for="regDate">작성일</label>
+								<input type="text" class="form-control" id="regDate" readonly 
+									value="<fmt:formatDate value="${board.regDate }" pattern="yyyy-MM-dd" />" />
 							
 							</div>
 							<div class="form-group col-sm-4" >
@@ -165,8 +166,19 @@ function remove_go(){
 	}
 }
 
+<c:if test="${from eq 'modify'}" >
+	alert("정상적으로 수정되었습니다.");	
+</c:if>
+<c:if test="${from eq 'remove'}" >
+	alert("삭제되었습니다.");
+	window.close();
+	window.opener.location.reload();
+</c:if>
+
+
 </script>
-<%@ include file="./reply_js.jsp" %>
+
+<%@ include file="./reply_js.jsp" %> 
 </body> 
  
  

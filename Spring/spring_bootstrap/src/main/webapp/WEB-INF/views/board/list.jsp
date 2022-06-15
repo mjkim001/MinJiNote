@@ -100,20 +100,20 @@
 												white-space: nowrap; text-overflow: ellipsis;">
 												
 							<a href="javascript:OpenWindow('detail.do?from=list&bno=${board.bno }','상세보기',800,700);">
-								<span class="col-sm-12 ">
-									${board.title }
-									<c:if test="${board.replycnt ne 0 }">
-										<span class="nav-item">
+								<span class="col-sm-12 ">${board.title }
+									<c:if test="${board.replycnt ne 0 }">		
+										<span class="nav-item">															
 										&nbsp;&nbsp;<i class="fa fa-comment"></i>
-										<span class="badge badge-warning navbar-badge">${board.replycnt }</span>
-										</span>								
+										<span class="badge badge-warning navbar-badge">${board.replycnt}</span>
+										</span>
+										
 									</c:if>
-								</span>								
+							</span>								
 							</a>
 							</td>
 							<td>${board.writer }</td>
 							<td>
-								<fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd"/>
+								<fmt:formatDate value="${board.regDate }" pattern="yyyy-MM-dd"/>
 							</td>
 							<td><span class="badge bg-red">${board.viewcnt }</span></td>
 						</tr>
@@ -127,6 +127,12 @@
 		
     </section>
     <!-- /.content -->
-
+<c:if test="${from eq 'regist' }" >
+	<script>
+		alert("등록되었습니다.");
+		window.close();
+		window.opener.location.reload();			
+	</script>
+</c:if>
 
 </body>
