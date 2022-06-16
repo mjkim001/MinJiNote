@@ -1,118 +1,208 @@
 package kr.or.ddit.controller;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jsp.command.SearchCriteria;
+import com.jsp.dao.AttachDAO;
+import com.jsp.dto.AttachVO;
 import com.jsp.dto.BoardVO;
+import com.jsp.dto.PdsVO;
 import com.jsp.service.BoardService;
+import com.jsp.service.PdsService;
+
+import kr.or.ddit.command.PdsModifyCommand;
+import kr.or.ddit.command.PdsRegistCommand;
 
 @Controller
 @RequestMapping("/pds")
 public class PdsController {
-	@Resource(name="boardService")
-	private BoardService service;
-	
+
+	@Resource(name = "pdsService")
+	private PdsService service;
+
 	@RequestMapping("/main")
-	public String main()throws Exception{
-		String url="board/main";
+	public String main() throws Exception {
+		String url = "pds/main";
 		return url;
 	}
-	
+
 	@RequestMapping("/list")
-	public ModelAndView list(SearchCriteria cri, ModelAndView mnv)throws SQLException{
-		String url="board/list";		
-		
-		Map<String,Object> dataMap = service.getBoardList(cri);
-		
-		mnv.addObject("dataMap",dataMap);
+	public ModelAndView list(SearchCriteria cri, ModelAndView mnv) throws SQLException {
+		String url = "pds/list";
+
+		Map<String, Object> dataMap = service.getList(cri);
+
+		mnv.addObject("dataMap", dataMap);
 		mnv.setViewName(url);
-		
+
 		return mnv;
 	}
-	
+
 	@RequestMapping("/registForm")
-	public String registForm(){
-		String url="board/regist";		
+	public String registForm() {
+		String url = "pds/regist";
 		return url;
 	}
-	
-	@RequestMapping("/regist")
-	public String regist(BoardVO board,HttpServletRequest request, //BoardVO board,
-						 RedirectAttributes rttr)throws Exception{
-		String url="redirect:/board/list.do";	
-		
-		board.setTitle((String)request.getAttribute("XSStitle"));
-		
-		service.regist(board);
-		
-		rttr.addFlashAttribute("from","regist");
-		
+
+	@Resource(name = "fileUploadPath")
+	private String fileUploadPath;
+
+	@RequestMapping(value = "/regist", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	public String regist(PdsRegistCommand registReq, HttpServletRequest request, // BoardVO board,
+			RedirectAttributes rttr) throws Exception {
+		String url = "redirect:/pds/list.do";
+
+		// file 저장 -> List<AttachVO>
+		String savePath = this.fileUploadPath;
+		List<AttachVO> attahList = GetAttachesByMultipartFileAdapter.save(registReq.getUploadFile(), savePath);
+
+		// DB
+		PdsVO pds = registReq.toPdsVO();
+		pds.setAttachList(attahList);
+		pds.setTitle((String) request.getAttribute("XSStitle"));
+		service.regist(pds);
+
+		// output
+		rttr.addFlashAttribute("from", "regist");
+
 		return url;
 	}
-	
+
 	@RequestMapping("/detail")
-	public ModelAndView detail(int bno,String from, ModelAndView mnv )throws SQLException{
-		String url="board/detail";		
-		
-		BoardVO board =null;
-		if(from!=null && from.equals("list")) {
-			board=service.getBoard(bno);
-			url="redirect:/board/detail.do?bno="+bno;
-		}else {
-			board=service.getBoardForModify(bno);
+	public ModelAndView detail(int pno, String from, ModelAndView mnv) throws SQLException {
+		String url = "pds/detail";
+
+		PdsVO pds = null;
+		if (from != null && from.equals("list")) {
+			pds = service.read(pno);
+			url = "redirect:/pds/detail.do?pno=" + pno;
+		} else {
+			pds = service.getPds(pno);
 		}
-					
-		mnv.addObject("board",board);		
+
+		// 파일명 재정의
+		if (pds != null) {
+			List<AttachVO> attachList = pds.getAttachList();
+			if (attachList != null) {
+				for (AttachVO attach : attachList) {
+					String fileName = attach.getFileName().split("\\$\\$")[1];
+					attach.setFileName(fileName);
+				}
+			}
+		}
+
+		mnv.addObject("pds", pds);
 		mnv.setViewName(url);
-		
+
 		return mnv;
 	}
-	
-	@RequestMapping("/modifyForm")
-	public ModelAndView modifyForm(int bno,ModelAndView mnv)throws SQLException{
-		String url="board/modify";
-		
-		BoardVO board = service.getBoardForModify(bno);
-		
-		mnv.addObject("board",board);		
-		mnv.setViewName(url);
-		
-		return mnv;
-	}
-	
-	@RequestMapping(value="/modify",method=RequestMethod.POST)
-	public String modifyPost(BoardVO board,HttpServletRequest request, //BoardModifyCommand modifyReq,
-							 RedirectAttributes rttr) throws Exception{
-		
-		String url = "redirect:/board/detail.do";
-		
-		board.setTitle((String)request.getAttribute("XSStitle"));
-				
-		service.modify(board);
-		
-		rttr.addFlashAttribute("from","modify");
-		rttr.addAttribute("bno",board.getBno());
-		
+
+	@RequestMapping("/getFile")
+	public String getFile(int ano, Model model) throws Exception {
+		String url = "downloadFile";
+
+		AttachVO attach = service.getAttachByAno(ano);
+
+		model.addAttribute("savePath", attach.getUploadPath());
+		model.addAttribute("fileName", attach.getFileName());
+
 		return url;
 	}
-	
-	@RequestMapping(value="/remove",method=RequestMethod.POST)
-	public String remove(int bno,RedirectAttributes rttr) throws Exception{
-		String url = "redirect:/board/detail";
-		service.remove(bno);		
-		
-		rttr.addAttribute("bno",bno);
-		rttr.addFlashAttribute("from","remove");
-		return url;		
+
+	@RequestMapping("/modifyForm")
+	public ModelAndView modifyForm(int pno, ModelAndView mnv) throws SQLException {
+		String url = "pds/modify";
+
+		PdsVO pds = service.getPds(pno);
+
+		// 파일명 재정의
+		if (pds != null) {
+			List<AttachVO> attachList = pds.getAttachList();
+			if (attachList != null) {
+				for (AttachVO attach : attachList) {
+					String fileName = attach.getFileName().split("\\$\\$")[1];
+					attach.setFileName(fileName);
+				}
+			}
+		}
+
+		mnv.addObject("pds", pds);
+		mnv.setViewName(url);
+
+		return mnv;
+	}
+
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public String modifyPost(PdsModifyCommand modifyReq, HttpServletRequest request, // BoardModifyCommand modifyReq,
+			RedirectAttributes rttr) throws Exception {
+
+		String url = "redirect:/pds/detail.do";
+
+		// 파일 삭제
+		if (modifyReq.getDeleteFile() != null && modifyReq.getDeleteFile().length > 0) {
+			for (String anoStr : modifyReq.getDeleteFile()) {
+				int ano = Integer.parseInt(anoStr);
+				AttachVO attach = service.getAttachByAno(ano);
+
+				File deleteFile = new File(attach.getUploadPath(), attach.getFileName());
+
+				if (deleteFile.exists()) {
+					deleteFile.delete(); // file 삭제
+				}
+				service.removeAttachByAno(ano); // DB삭제
+			}
+		}
+
+		// 파일 저장
+		List<AttachVO> attachList = GetAttachesByMultipartFileAdapter.save(modifyReq.getUploadFile(), fileUploadPath);
+
+		// psdVO setting
+		PdsVO pds = modifyReq.toPdsVO();
+		pds.setAttachList(attachList);
+		pds.setTitle((String) request.getAttribute("XSStitle"));
+
+		// DB저장
+		service.modify(pds);
+
+		rttr.addFlashAttribute("from", "modify");
+		rttr.addAttribute("pno", pds.getPno());
+
+		return url;
+	}
+
+	@RequestMapping(value = "/remove", method = RequestMethod.POST)
+	public String remove(int pno, RedirectAttributes rttr) throws Exception {
+		String url = "redirect:/pds/detail.do";
+
+		// 첨부파일 삭제
+		List<AttachVO> attachList = service.getPds(pno).getAttachList();
+		if (attachList != null) {
+			for (AttachVO attach : attachList) {
+				File target = new File(attach.getUploadPath(), attach.getFileName());
+				if (target.exists()) {
+					target.delete();
+				}
+			}
+		}
+
+		// DB 삭제
+		service.remove(pno);
+
+		rttr.addFlashAttribute("from", "remove");
+		rttr.addAttribute("pno", pno);
+		return url;
 	}
 }

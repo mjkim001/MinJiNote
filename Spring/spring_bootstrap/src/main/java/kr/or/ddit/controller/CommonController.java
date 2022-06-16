@@ -80,29 +80,40 @@ public class CommonController {
 
 	}
 
-	@RequestMapping(value = "/common/login", method = RequestMethod.POST)
-	public String login(String id, String pwd, HttpSession session) throws Exception {
-		String url = "redirect:/index.do";
-		try {
-			memberService.login(id, pwd);
-			session.setAttribute("loginUser", memberService.getMember(id));
-		} catch (NotFoundIdException | InvalidPasswordException e) {
-			//model.addAttribute("message", e.getMessage());
-			url = "common/login_fail";
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
+	@RequestMapping("/security/accessDenied")
+	public void accessDenied() {}
+	
+	@RequestMapping("/common/loginTimeOut")
+	public String loginTimeOut(Model model)throws Exception{
+		String url = "security/sessionOut";
+		
+		model.addAttribute("message","세션이 만료되었습니다.\\n다시 로그인 하세요!");
 		return url;
 	}
 	
-	@RequestMapping(value = "/common/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
-		String url = "redirect:/";
-		session.invalidate();
-		return url;
-	}
+//	@RequestMapping(value = "/common/login", method = RequestMethod.POST)
+//	public String login(String id, String pwd, HttpSession session) throws Exception {
+//		String url = "redirect:/index.do";
+//		try {
+//			memberService.login(id, pwd);
+//			session.setAttribute("loginUser", memberService.getMember(id));
+//		} catch (NotFoundIdException | InvalidPasswordException e) {
+//			//model.addAttribute("message", e.getMessage());
+//			url = "common/login_fail";
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw e;
+//		}
+//		return url;
+//	}
+//	
+//	@RequestMapping(value = "/common/logout", method = RequestMethod.GET)
+//	public String logout(HttpSession session) {
+//		String url = "redirect:/";
+//		session.invalidate();
+//		return url;
+//	}
 	
 }
 
