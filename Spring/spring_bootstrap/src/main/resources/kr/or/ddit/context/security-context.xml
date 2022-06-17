@@ -13,6 +13,7 @@
 	<beans:bean id="loginSuccessHandler"
 			 	class="kr.or.ddit.security.LoginSuccessHandler"
 			 	p:defaultTargetUrl="/index.do"
+			 	p:savePath-ref="loginUserLogSavePath"			
 			 	/>
 	<beans:bean id="loginFailureHandler"
 	            class="kr.or.ddit.security.LoginFailureHandler"
@@ -44,31 +45,33 @@
 		
 		<intercept-url pattern="/**" access="permitAll"/>
 		
-		<form-login login-page="/common/loginForm.do?error=-1"
-					login-processing-url="/common/login.do"
-					username-parameter="id"
-					password-parameter="pwd"
-					authentication-success-handler-ref="loginSuccessHandler"
-					authentication-failure-handler-ref="loginFailureHandler"/>
-		
-		<logout logout-url="/common/logout.do"
-				invalidate-session="true"
-				logout-success-url="/"
-				delete-cookies="JSESSIONID"/>
-				
-		<session-management invalid-session-url="/common/loginTimeOut">
-			<concurrency-control
+		<form-login  login-page="/common/loginForm.do?error=-1"
+					 login-processing-url="/common/login.do"
+					 username-parameter="id"
+					 password-parameter="pwd"
+					 authentication-success-handler-ref="loginSuccessHandler"
+					 authentication-failure-handler-ref="loginFailureHandler"
+					 />
+		<logout  logout-url="/common/logout.do"	
+				 invalidate-session="true"
+				 logout-success-url="/"
+				 delete-cookies="JSESSIONID"
+				  />
+		<session-management invalid-session-url="/common/loginTimeOut" >
+			<concurrency-control					
 				expired-url="/common/loginExpired"
 				max-sessions="1"
-				session-registry-ref="sessionRegistry"/>
-		</session-management>
+				session-registry-ref="sessionRegistry"
+								
+			/>		
+		</session-management>		  
+				  
 	</http>
 	
-	<!-- 세션 동기화 -->
-	<beans:bean id="sessionRegistry"
-				class="org.springframework.security.core.session.SessionRegistryImpl"/>
-	
-	
+	<!-- 세션동기화 -->
+	<beans:bean id="sessionRegistry" 
+ 		class="org.springframework.security.core.session.SessionRegistryImpl"
+ 	/>
 </beans:beans>
 
 

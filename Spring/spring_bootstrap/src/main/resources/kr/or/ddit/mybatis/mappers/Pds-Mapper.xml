@@ -60,7 +60,13 @@
 	</select>
 	
 	
-	<select id="selectPdsByPno" resultType="pds">
+	<select id="selectPdsByImage"  resultType="pds">
+		select * 
+		from pds 
+		where content like '%'||#{keyword}||'%' 
+	</select>
+	
+	<select id="selectPdsByPno"  resultType="pds">
 		select * 
 		from pds 
 		where pno=#{pno}
