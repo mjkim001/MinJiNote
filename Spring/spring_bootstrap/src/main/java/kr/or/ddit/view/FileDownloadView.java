@@ -13,24 +13,35 @@ import com.jsp.controller.FileDownloadResolver;
 public class FileDownloadView implements View {
 
 	private String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
+		
+	private void setContentType(String contentType) {
+		this.contentType = contentType;		
 	}
 	
 	@Override
 	public String getContentType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.contentType;
 	}
 
 	@Override
-	public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public void render(Map<String, ?> model, HttpServletRequest request, 
+						HttpServletResponse response) throws Exception {
 		String savedPath = (String) model.get("savedPath");
 		String fileName = (String) model.get("fileName");
 		
 		FileDownloadResolver.sendFile(fileName, savedPath, request, response);
-		
+
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+

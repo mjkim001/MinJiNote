@@ -1,24 +1,20 @@
-package kr.or.ddit.security;
+package kr.or.ddit.interceptor;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jsp.dto.MemberVO;
 
-public class LoginSuccessHandler  extends SavedRequestAwareAuthenticationSuccessHandler{
-	
+public class LoginUserLogInterceptor extends HandlerInterceptorAdapter {
 	
 	private String savePath="c:\\log";;
 	private String saveFileName = "login_user_log.csv";
@@ -29,29 +25,14 @@ public class LoginSuccessHandler  extends SavedRequestAwareAuthenticationSuccess
 	public void setSaveFileName(String saveFileName) {
 		this.saveFileName = saveFileName;
 	}
-	
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws ServletException, IOException {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
 		
+		MemberVO loginUser=(MemberVO)request.getSession().getAttribute("loginUser");
 		
-		User user = (User)authentication.getDetails();	
+		if(loginUser==null) return;
 		
-		// session 저장
-		MemberVO loginUser = user.getMemberVO();  
-		HttpSession session = request.getSession();		
-		session.setAttribute("loginUser", loginUser);
-		session.setMaxInactiveInterval(60*6);
-		
-		// log 작성
-		loginUserlogFile(loginUser, request);
-		
-		// 화면전환
-		super.onAuthenticationSuccess(request, response, authentication);
-	}
-	
-	private void loginUserlogFile(MemberVO loginUser,
-								HttpServletRequest request) throws IOException{
 		//로그인 정보를 스트링으로 저장.
 		String tag ="[login:user]";
 		String log =tag
@@ -72,14 +53,12 @@ public class LoginSuccessHandler  extends SavedRequestAwareAuthenticationSuccess
 		out.write(log);
 		out.newLine();
 		
-		out.close();
+		out.close();		
 	}
-
+	
+	
+	
 }
-
-
-
-
 
 
 
