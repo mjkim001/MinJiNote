@@ -10,17 +10,18 @@ import com.jsp.dao.SearchMemberDAO;
 import com.jsp.dto.MemberVO;
 
 public class MemberDAOBeanImpl implements MemberDAOBean {
-	
+
 	private SqlSession session;
-	private SearchMemberDAO memberDAO;	
-	
+	private SearchMemberDAO memberDAO;
+
 	public void setSession(SqlSession session) {
 		this.session = session;
 	}
+
 	public void setSearchMemberDAO(SearchMemberDAO memberDAO) {
 		this.memberDAO = memberDAO;
 	}
-	
+
 	@Override
 	public List<MemberVO> selectMemberList() throws Exception {
 		return memberDAO.selectMemberList(session);
@@ -38,7 +39,7 @@ public class MemberDAOBeanImpl implements MemberDAOBean {
 
 	@Override
 	public int selectMemberListCount(SearchCriteria cri) throws Exception {
-		return memberDAO.selectSearchMemberListCount(session,cri);
+		return memberDAO.selectSearchMemberListCount(session, cri);
 	}
 
 	@Override
@@ -47,15 +48,17 @@ public class MemberDAOBeanImpl implements MemberDAOBean {
 	}
 
 	@Override
-	public MemberVO selectMemberByPicture(String picture) throws SQLException {	
-		MemberVO member=null;		
-		member = session.selectOne("Member-Mapper.selectMemberByPicture",picture);		
+	public MemberVO selectMemberByPicture(String picture) throws SQLException {
+		MemberVO member = null;
+
+		member = session.selectOne("Member-Mapper.selectMemberByPicture", picture);
+
 		return member;
 	}
 
 	@Override
 	public void insertMember(MemberVO member) throws SQLException {
-		memberDAO.insertMember(session, member);	
+		memberDAO.insertMember(session, member);
 	}
 
 	@Override
@@ -72,7 +75,7 @@ public class MemberDAOBeanImpl implements MemberDAOBean {
 
 	@Override
 	public void enabledMember(String id, int enabled) throws SQLException {
-		memberDAO.enabledMember(session, id, enabled);		
+		memberDAO.enabledMember(session, id, enabled);
 	}
 
 }
